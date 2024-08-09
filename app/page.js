@@ -857,7 +857,7 @@ export default function Home() {
                   color: "text.primary"
                   // fontSize: "2rem",
                 }}>
-                  Hi, I'm Leo Chao.
+                  Hi, my name is Leo Chao.
                 </Typography>
                 <Typography
                 variant = "h7"
