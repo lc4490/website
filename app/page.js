@@ -330,8 +330,9 @@ export default function Home() {
           {/* header */}
           <Box 
               width = "100%"
-              height="10%" 
+              height="12vh" 
               bgcolor="background.default"
+              // bgcolor="red"
               display="flex"
               flexDirection={'column'}
               justifyContent="space-between"
@@ -342,12 +343,11 @@ export default function Home() {
               zIndex="1000"
             >
             {isMobile ? (
-              <Box width = "90%" flexDirection={"row"} display = {"flex"} justifyContent = {'space-between'} >
+              <Box width = "100%" height="100%" paddingX={2.5} flexDirection={"row"} display = {"flex"} justifyContent = {'space-between'} >
               {/* Home */}
               <Button
               href = "#home"
               sx={{
-                fontSize: '1rem',
                 backgroundColor: 'background.default',
                 color: 'text.primary',
                 borderColor: 'background.default',
@@ -362,6 +362,7 @@ export default function Home() {
                 <Typography
                   sx={{
                     fontWeight: "700",
+                    fontSize: '1.25rem',
                   }}
                 >
                   Home
@@ -555,14 +556,14 @@ export default function Home() {
               </Drawer>
               </Box>
             ) : (
-              <Box width="100%" display="flex" justifyContent="space-between">
+              <Box width="100%" height = "100%" display="flex" justifyContent="space-between" paddingX = {2.5}>
                 {/* Home/Resume/Projects/Skills/Bio */}
                 <Box width="100%" display="flex" justifyContent="space-between">
                   {/* Home */}
                   <Button
                     href = "#home"
                     sx={{
-                      fontSize: '1rem',
+                      // width: "20%",
                       backgroundColor: 'background.default',
                       color: 'text.primary',
                       borderColor: 'background.default',
@@ -576,6 +577,7 @@ export default function Home() {
                     <Typography
                       sx={{
                         fontWeight: "700",
+                        fontSize: '1.25rem',
                       }}
                     >
                       Home
@@ -585,6 +587,7 @@ export default function Home() {
                   <Button
                     href="#bio"
                     sx={{
+                      // width: "20%",
                       fontSize: '1rem',
                       backgroundColor: 'background.default',
                       color: 'text.primary',
@@ -599,6 +602,7 @@ export default function Home() {
                     <Typography
                       sx={{
                         fontWeight: "700",
+                        fontSize: '1.25rem',
                       }}
                     >
                       Bio
@@ -608,6 +612,7 @@ export default function Home() {
                   <Button
                     href="#skills"
                     sx={{
+                      // width: "20%",
                       fontSize: '1rem',
                       backgroundColor: 'background.default',
                       color: 'text.primary',
@@ -622,6 +627,7 @@ export default function Home() {
                     <Typography
                       sx={{
                         fontWeight: "700",
+                        fontSize: '1.25rem',
                       }}
                     >
                       Skills
@@ -631,6 +637,7 @@ export default function Home() {
                   <Button
                     href="#projects"
                     sx={{
+                      // width: "20%",
                       fontSize: '1rem',
                       backgroundColor: 'background.default',
                       color: 'text.primary',
@@ -645,6 +652,7 @@ export default function Home() {
                     <Typography
                       sx={{
                         fontWeight: "700",
+                        fontSize: '1.25rem',
                       }}
                     >
                       Projects
@@ -654,6 +662,7 @@ export default function Home() {
                   <Button
                     href= "/Resume.pdf" target="_blank" 
                     sx={{
+                      // width: "20%",
                       fontSize: '1rem',
                       backgroundColor: 'background.default',
                       color: 'text.primary',
@@ -668,6 +677,7 @@ export default function Home() {
                     <Typography
                       sx={{
                         fontWeight: "700",
+                        fontSize: '1.25rem',
                       }}
                     >
                       Resume
@@ -680,6 +690,7 @@ export default function Home() {
                   sx={{
                     display: "flex",
                     gap: 1,
+                    alignItems: "center",
                   }}>
                   {/* github */}
                   <Button
@@ -765,7 +776,7 @@ export default function Home() {
                   // padding: 5,
                 }}>
                   <Button href={project.link} target="_blank" 
-                  style={{ display: 'flex', width: '100%', height: '100%', padding: 0, backgroundColor: "#24002D", justifyContent: 'left', padding: 5}}
+                  style={{ display: 'flex', width: '100%', height: '100%', padding: 0, backgroundColor: "#24002D", justifyContent: 'left', alignItems: 'baseline', padding: 5}}
                   >
                     <Image 
                       src={project.image}
@@ -776,12 +787,12 @@ export default function Home() {
                     <Stack
                       style={{
                         left: '5%',
-                        width: '300px',
+                        width: '400px',
                         height: '90%',
                         // backgroundColor: 'red',
                         flexGrow: 1,
                         display: "flex",
-                        justifyContent: "center",
+                        justifyContent: "end",
                         // alignItems: "end",
                         overflow: 'hidden',
                         padding: 5,
@@ -789,7 +800,7 @@ export default function Home() {
                       }}
                     >
                       <Typography
-                        variant="h4"
+                        variant= {isMobile ? "h4": "h3"}
                         color="white"
                         // textAlign="center"
                         fontWeight="700"
