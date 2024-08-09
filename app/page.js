@@ -761,26 +761,27 @@ export default function Home() {
                 <Box key={index} 
                 sx = {{
                   width: "100%", 
-                  height: isMobile ? "325px" : "600px",
+                  height: isMobile ? "325px" : "500px",
                   // padding: 5,
                 }}>
                   <Button href={project.link} target="_blank" 
-                  style={{ display: 'flex', width: '100%', height: '100%', padding: 0 }}
+                  style={{ display: 'flex', width: '100%', height: '100%', padding: 0, backgroundColor: "#24002D", justifyContent: 'left', padding: 5}}
                   >
                     <Image 
                       src={project.image}
                       alt={project.name}
                       layout="fill"
-                      style={{ width: '100%', height: '100%', objectFit: "cover", opacity: '50%',}}
+                      style={{ width: '100%', height: '100%', objectFit: "cover", opacity: '50%'}}
                     />
                     <Stack
                       style={{
-                        width: '90%',
+                        left: '5%',
+                        width: '300px',
                         height: '90%',
                         // backgroundColor: 'red',
                         flexGrow: 1,
                         display: "flex",
-                        justifyContent: "end",
+                        justifyContent: "center",
                         // alignItems: "end",
                         overflow: 'hidden',
                         padding: 5,
@@ -811,16 +812,17 @@ export default function Home() {
             </Slider>
           </Box>
           {/* Bio */}
-          <Box id = "bio" sx={{height: 50}}></Box>
+          <Box id = "bio" sx={{height: 0}}></Box>
           {/* <Typography id = "bio" paddingX={2.5} paddingY = {"1%"} variant="h4" color="text.primary" fontWeight="bold">Bio:</Typography> */}
           <Box
           sx ={{
-            height: "90vh",
+            height: "60vh",
             // backgroundColor: "red",
             display: "flex",
             justifyContent: "center",
-            alignItems:"center",
+            alignItems:"baseline",
             flexDirection:  "row",
+            paddingY: 10,
           }}
           >
           <Stack
