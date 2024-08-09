@@ -816,13 +816,13 @@ export default function Home() {
           {/* <Typography id = "bio" paddingX={2.5} paddingY = {"1%"} variant="h4" color="text.primary" fontWeight="bold">Bio:</Typography> */}
           <Box
           sx ={{
-            height: "60vh",
+            // height: "60vh",
             // backgroundColor: "red",
             display: "flex",
             justifyContent: "center",
             alignItems:"baseline",
             flexDirection:  "row",
-            paddingY: 10,
+            marginTop: 10,
           }}
           >
           <Stack
@@ -890,8 +890,8 @@ export default function Home() {
           </Box>
           <Box id = "skills" sx={{height: 50}}></Box>
           {/* skills */}
-          <Typography paddingX={2.5} paddingY = {"1%"} variant="h4" color="text.primary" fontWeight="bold">Skills:</Typography>
-          <Stack paddingX={2.5} flexDirection="row" alignItems="flex-start" style={{ maxWidth: "100%",overflow: "auto" }}>
+          <Typography position="relative" paddingX={2.5} paddingY = {"1%"} variant="h4" color="text.primary" fontWeight="bold">Skills:</Typography>
+          <Stack position="relative" paddingX={2.5} flexDirection="row" alignItems="flex-start" style={{ maxWidth: "100%",overflow: "auto" }}>
             {skills.map(({ name, icon }, index) => (
               <Stack item xs={6} sm={2} key={index} flexDirection={"row"} padding={1}>
                 <IconButton
