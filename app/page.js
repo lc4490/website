@@ -776,13 +776,13 @@ export default function Home() {
                   // padding: 5,
                 }}>
                   <Button href={project.link} target="_blank" 
-                  style={{ display: 'flex', width: '100%', height: '100%', padding: 0, backgroundColor: "#24002D", justifyContent: 'left', alignItems: 'baseline', padding: 5}}
+                  style={{ display: 'flex', width: '100%', height: '100%', padding: 0, justifyContent: 'left', alignItems: 'baseline', backgroundColor: 'black'}}
                   >
                     <Image 
                       src={project.image}
                       alt={project.name}
                       layout="fill"
-                      style={{ width: '100%', height: '100%', objectFit: "cover", opacity: '50%'}}
+                      style={{ width: '100%', height: '100%', objectFit: "cover", opacity: '50%' }}
                     />
                     <Stack
                       style={{
@@ -804,12 +804,20 @@ export default function Home() {
                         color="white"
                         // textAlign="center"
                         fontWeight="700"
+                        sx={{
+                          // WebkitTextStroke: '1px lightgray', // Stroke color and thickness
+                        }}
                         >
                         {project.name}
                       </Typography>
                       <Typography
                         variant="h8"
                         color="white"
+                        
+                        sx={{
+                          // backgroundColor: "gray",
+                          // WebkitTextStroke: '1px gray', // Stroke color and thickness
+                        }}
                         // textAlign="center"
                         // fontWeight="700"
                         >
