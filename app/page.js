@@ -787,7 +787,7 @@ export default function Home() {
                     <Stack
                       style={{
                         left: '5%',
-                        width: '400px',
+                        width: isMobile ? "400px" : "500px",
                         height: '90%',
                         // backgroundColor: 'red',
                         flexGrow: 1,
