@@ -890,6 +890,8 @@ export default function Home() {
                 </Typography>
                 <Box>
                   <Button
+                  href = "/Resume.pdf"
+                  target = "_blank"
                   sx={{
                     display: "flex",
                     // justifyContent: "start",
