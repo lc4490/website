@@ -9,6 +9,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 // font awesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPython, faJava, faCss3, faHtml5, faJs, faNodeJs, faReact } from '@fortawesome/free-brands-svg-icons';
@@ -912,7 +913,8 @@ export default function Home() {
           <Box id = "skills" sx={{height: 50}}></Box>
           {/* skills */}
           <Typography position="relative" paddingX={2.5} paddingY = {"1%"} variant="h4" color="text.primary" fontWeight="bold">Skills:</Typography>
-          <Stack position="relative" paddingX={2.5} flexDirection="row" alignItems="flex-start" style={{ maxWidth: "100%",overflow: "auto" }}>
+          <Stack position="relative" paddingX={2.5} flexDirection="row" alignItems="center" style={{ maxWidth: "100%",overflow: "auto" }}>
+            <FilterAltIcon sx= {{fontSize: "3rem"}}></FilterAltIcon>
             {skills.map(({ name, icon }, index) => (
               <Stack item xs={6} sm={2} key={index} flexDirection={"row"} padding={1}>
                 <IconButton
