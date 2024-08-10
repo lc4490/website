@@ -28,19 +28,19 @@ import Slider from "react-slick";
 
 // project/skills list
 const projects = [
-  {name: "trainerGPT", 
+  {name: "trainer_GPT", 
     description: "NextJS App with a chat interface and API endpoints to handle user queries and responses. Utilizes OpenAI API to respond to user query. Multi-language support.",
     skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Postman", "RAG", "Node.js"],
     image: '/trainergpt.png',
     link: 'https://leonardochao-ai-trainer.vercel.app',
   },
-  {name: "myPantry",
+  {name: "my_Pantry",
     description: "NextJS App that tracks pantry ingredients. Utilizes react-camera-pro and OpenAI API to identify images. Real-time creation of recipes using AI.",
     skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Node.js"],
     image: '/mypantry.png',
     link: 'https://leonardochao-my-pantry.vercel.app'
   },
-  {name: "lineupTracker",
+  {name: "lineup_Tracker",
     description: "Track NBA lineups. Scrapes data tables on websites. User input functionality. Real-time creation of subsets.",
     skills: ["Python","BeautifulSoup", "Requests"],
     image: '/lineuptracker.png',
@@ -87,6 +87,12 @@ const projects = [
     skills: ["HTML", "CSS"],
     image: '/erlitou.png',
     link: 'https://lc4490.github.io/erlitou/'
+  },
+  {name: "nyu_shell",
+    description: "Linux shell clone built in C",
+    skills: ["C"],
+    image: '/nyush.png',
+    link: 'https://github.com/lc4490/nyush/blob/main/README.md'
   },
 ]
 const skills = [
