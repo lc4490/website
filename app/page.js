@@ -28,7 +28,7 @@ import Slider from "react-slick";
 
 // project/skills list
 const projects = [
-  {name: "trainer_GPT", 
+  {name: "ai_personal_trainer", 
     description: "NextJS App with a chat interface and API endpoints to handle user queries and responses. Utilizes OpenAI API to respond to user query. Multi-language support.",
     skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Postman", "RAG", "Node.js"],
     image: '/trainergpt.png',
