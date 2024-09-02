@@ -10,6 +10,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import InfoIcon from '@mui/icons-material/Info';
 // font awesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPython, faJava, faCss3, faHtml5, faJs, faNodeJs, faReact } from '@fortawesome/free-brands-svg-icons';
@@ -28,6 +29,12 @@ import Slider from "react-slick";
 
 // project/skills list
 const projects = [
+  {name: "J.A.R.V.I.S.", 
+    description: "Voice-responsive AI Chatbot. Utilizes OpenAI API to respond to user query. Multi-language support.",
+    skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Postman", "RAG", "Node.js"],
+    image: '/jarvis.png',
+    link: 'https://leonardochao-jarvis.vercel.app',
+  },
   {name: "AI_Trainer", 
     description: "NextJS App with a chat interface and API endpoints to handle user queries and responses. Utilizes OpenAI API to respond to user query. Multi-language support.",
     skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Postman", "RAG", "Node.js"],
@@ -126,7 +133,7 @@ const lightTheme = createTheme({
       userBubble: '#95EC69',
     },
     text: {
-      primary: '#565656',
+      default: 'black',
     },
   },
 });
@@ -134,7 +141,8 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     background: {
-      default: '#232323',
+      default: 'black',
+      // default: '#232323',
       paper: '#121212',
       bubbles: '#2C2C2C',
       userBubble: '#29B560',
@@ -935,9 +943,9 @@ export default function Home() {
                     flexDirection: "row",
                     justifyContent: "center",
                     alignItems: "center",
-                    backgroundColor: selectedSkills.includes(name) ? "text.primary" : "background.default",
+                    backgroundColor: selectedSkills.includes(name) ? "text.primary" : "background.bubbles",
                     color: selectedSkills.includes(name) ? "background.default" : "text.primary",
-                    border: "1px solid gray",
+                    // border: "1px solid gray",
                     borderRadius: "10px",
                     '&:hover': 
                     {
@@ -960,6 +968,7 @@ export default function Home() {
                     justifyContent: "start",
                     alignItems: "center",
                     paddingX: 2.5,
+                    fontWeight: "700"
                   }}>
                   {name}
                 </Typography>
@@ -971,10 +980,10 @@ export default function Home() {
           <Box id = "projects" sx={{height: 50}}></Box>
           {/* projects  */}
           <Typography paddingX={2.5} paddingY={"1%"} variant="h4" color="text.primary" fontWeight="bold">Projects:</Typography>
-          <Grid container spacing={"5%"} paddingX={2.5} paddingY={5}>
+          <Grid container spacing={"1%"} paddingX={2.5} paddingY={5}>
             {filteredProjects.map(({ name, description, image, link }, index) => (
               // projects grid
-              <Grid item xs={12} sm={4} key={index} display = "flex" flexDirection = "column" alignItems = "center" gap = {1}>
+              <Grid item xs={12} sm={4} key={index} flexDirection = "column" alignItems = "center" gap = {1}>
                 
                 <Button
                 key={index} 
@@ -983,7 +992,7 @@ export default function Home() {
                 sx= 
                   {{
                     width: "100%",
-                    aspectRatio: 1,
+                    aspectRatio: 16/9,
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
@@ -1006,7 +1015,7 @@ export default function Home() {
                       opacity: '50%',
                    }}
                   />
-                  <Stack
+                  {/* <Stack
                       style={{
                         flexGrow: 1,
                         textAlign: "center",
@@ -1024,17 +1033,18 @@ export default function Home() {
                         {name}
                       </Typography>
                       
-                  </Stack>
+                  </Stack> */}
                 </Button>
                 <Button
-                
                 onClick={() => handleDesModal(index)}
                 sx = {{
-                  bgcolor: "text.primary",
-                  color: "background.default",
+                  // bgcolor: "text.primary",
+                  color: "text.primary",
                   borderRadius: "25px",
-                  padding: '10px',
+                  // padding: '10px',
+                  marginLeft: '25px',
                   fontWeight: '700',
+                  gap: 1,
                   '&:hover': 
                   {
                     backgroundColor: 'darkgray',
@@ -1043,7 +1053,7 @@ export default function Home() {
                   },
                 }}>
                   {/* {name} Bio */}
-                  Description
+                  {name}<InfoIcon />
                 </Button>
                 
               </Grid>
