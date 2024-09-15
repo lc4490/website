@@ -29,6 +29,12 @@ import Slider from "react-slick";
 
 // project/skills list
 const projects = [
+  {name: "trainerGPT", 
+    description: "All-encompassing trainer app. Utilizes OpenAI API to respond to user query. Identifies gym equipment through camera. Creates a exportable calendar of custom gym events. Identifies pantry items and generates custom recipes.",
+    skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Postman", "RAG", "Node.js", "Clerk", "Stripe"],
+    image: '/trainergpt.png',
+    link: 'https://trainer-gpt.vercel.app',
+  },
   {name: "J.A.R.V.I.S.", 
     description: "Voice-responsive AI Chatbot. Utilizes OpenAI API to respond to user query. Multi-language support.",
     skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Postman", "RAG", "Node.js"],
@@ -38,7 +44,7 @@ const projects = [
   {name: "AI_Trainer", 
     description: "NextJS App with a chat interface and API endpoints to handle user queries and responses. Utilizes OpenAI API to respond to user query. Multi-language support.",
     skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Postman", "RAG", "Node.js"],
-    image: '/trainergpt.png',
+    image: '/ai_trainer.png',
     link: 'https://leonardochao-ai-trainer.vercel.app',
   },
   {name: "my_Pantry",
@@ -111,6 +117,8 @@ const skills = [
   {name: "Postman", icon: './icons/postman.svg'},
   {name: "RAG"},
   {name: "Node.js"},
+  {name: "Clerk"},
+  {name: "Stripe"},
   {name:"HTML", icon: faHtml5},
   {name:"CSS", icon: faCss3},
   {name:"JavaScript", icon: faJs}, 
