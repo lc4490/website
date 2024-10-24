@@ -41,6 +41,12 @@ const projects = [
     image: '/jarvis.png',
     link: 'https://leonardochao-jarvis.vercel.app',
   },
+  {name: "CustomerChurnPrediction", 
+    description: "An end-to-end pipeline for a customer churn prediction mode utilizing three different machine learning models deployed through Python and Streamlit",
+    skills: ["Python", "Streamlit", "Pandas", "Numpy", "Machine Learning"],
+    image: '/customerchurn.png',
+    link: 'https://leochao-customer-churn-prediction.streamlit.app',
+  },
   {name: "AI_Trainer", 
     description: "NextJS App with a chat interface and API endpoints to handle user queries and responses. Utilizes OpenAI API to respond to user query. Multi-language support.",
     skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Postman", "RAG", "Node.js"],
@@ -128,6 +134,9 @@ const skills = [
   {name: "Pandas"},
   {name:"Java", icon: faJava}, 
   {name: "C", icon: faC}, 
+  {name: "Streamlit"},
+  {name: "GROQ"},
+  {name: "Machine Learning"},
 ]
 
 // light/dark themes
