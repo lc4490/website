@@ -91,7 +91,7 @@ const projects = [
       "Livekit",
     ],
     image: "/chatstarter.png",
-    link: "https://leonardochao-chatstarter.vercel.app/",
+    link: "https://chatstarter-leonardochao.vercel.app/",
   },
   {
     name: "J.A.R.V.I.S.",
