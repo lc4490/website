@@ -281,6 +281,17 @@ const getTheme = (mode) =>
     },
   });
 
+// ACCENTS
+const ACCENTS = [
+  "#7aa7ff",
+  "#7fe0b0",
+  "#ffc66e",
+  "#d9a6ff",
+  "#ff9db2",
+  "#9bb4ff",
+  "#96ddff",
+];
+
 // ---------- COMPONENT ----------
 export default function Home() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -395,16 +406,16 @@ export default function Home() {
             </Stack>
 
             <Stack direction="row" gap={1} alignItems="center">
-              <IconButton
-                onClick={() => setDarkMode((v) => !v)}
-                color="inherit"
-                aria-label="Toggle dark mode"
-              >
-                {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-              </IconButton>
-
               {!isMobile && (
                 <Stack direction="row" gap={1}>
+                  <IconButton
+                    onClick={() => setDarkMode((v) => !v)}
+                    color="inherit"
+                    aria-label="Toggle dark mode"
+                    anchor={isMobile ? "left" : "right"}
+                  >
+                    {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                  </IconButton>
                   <IconButton
                     component={MUILink}
                     href="https://github.com/lc4490"
@@ -432,9 +443,22 @@ export default function Home() {
               )}
 
               {isMobile && (
-                <IconButton onClick={() => setDrawerOpen(true)} color="inherit">
-                  <MenuIcon />
-                </IconButton>
+                <Box width="90vw" display="flex" justifyContent="space-between">
+                  <IconButton
+                    onClick={() => setDarkMode((v) => !v)}
+                    color="inherit"
+                    aria-label="Toggle dark mode"
+                    anchor={isMobile ? "left" : "right"}
+                  >
+                    {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                  </IconButton>
+                  <IconButton
+                    onClick={() => setDrawerOpen(true)}
+                    color="inherit"
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </Box>
               )}
             </Stack>
           </Stack>
@@ -523,7 +547,13 @@ export default function Home() {
       {/* BIO */}
       <Container id="bio" maxWidth="lg" sx={{ py: { xs: 6, sm: 8 } }}>
         <Grid container spacing={4} alignItems="center">
-          <Grid item xs={12} md={5}>
+          <Grid
+            item
+            xs={12}
+            md={5}
+            display="flex"
+            justifyContent={isMobile ? "center" : "flex-start"}
+          >
             <Box
               sx={{ position: "relative", width: "75%", aspectRatio: "1/1" }}
             >
@@ -572,7 +602,14 @@ export default function Home() {
       </Container>
 
       {/* HERO / SLIDESHOW */}
-      <Box id="home" sx={{ backgroundColor: "background.bubbles" }}>
+      <Box
+        id="home"
+        sx={
+          {
+            // backgroundColor: "background.bubbles"
+          }
+        }
+      >
         <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 4 } }}>
           <Box
             sx={{
@@ -710,7 +747,7 @@ export default function Home() {
           sx={{
             mb: 2,
             mt: 2,
-            fontSize: { xs: "clamp(22px, 6vw, 28px)", sm: 32 },
+            // fontSize: { xs: "clamp(22px, 6vw, 28px)", sm: 32 },
           }}
         >
           Projects
@@ -723,11 +760,15 @@ export default function Home() {
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
-                  background: (t) =>
-                    `linear-gradient(180deg, ${alpha(
-                      t.palette.background.paper,
-                      0.9
-                    )}, ${alpha(t.palette.background.paper, 0.95)})`,
+                  // background: (t) =>
+                  //   `linear-gradient(180deg, ${alpha(
+                  //     t.palette.background.paper,
+                  //     0.9
+                  //   )}, ${alpha(t.palette.background.paper, 0.95)})`,
+                  background: `linear-gradient(90deg, ${alpha(
+                    ACCENTS[index % ACCENTS.length],
+                    0.35
+                  )}, transparent 35%)`,
                   boxShadow: 2,
                   transition: "transform .25s ease, box-shadow .25s ease",
                   "&:hover": { transform: "translateY(-4px)", boxShadow: 6 },
