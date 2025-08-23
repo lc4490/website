@@ -10,9 +10,15 @@ import {
   Divider,
   Drawer,
   IconButton,
-  Link,
+  Link as MUILink,
+  Chip,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Container,
 } from "@mui/material";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // icon imports
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -22,6 +28,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import InfoIcon from "@mui/icons-material/Info";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+
 // font awesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -41,14 +50,15 @@ import {
 
 // image import
 import Image from "next/image";
+import NextLink from "next/link";
 
 // theme imports
 import {
   createTheme,
   ThemeProvider,
-  useTheme,
   CssBaseline,
   useMediaQuery,
+  alpha,
 } from "@mui/material";
 
 // slideshow imports
@@ -56,12 +66,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-// project/skills list
+// ---------- DATA ----------
 const projects = [
   {
     name: "trainerGPT",
     description:
-      "All-encompassing trainer app. Utilizes OpenAI API to respond to user query. Identifies gym equipment through camera. Creates a exportable calendar of custom gym events. Identifies pantry items and generates custom recipes.",
+      "All‑in‑one trainer: AI plans, equipment detection via camera, exportable workout calendar, and pantry → recipe generation.",
     skills: [
       "Next.js",
       "React",
@@ -80,7 +90,7 @@ const projects = [
   {
     name: "Chatstarter",
     description:
-      "Social media app. Ability to add friends, chat, voice and video call. AI chat moderation.",
+      "Social app with friends, chat, voice/video calls, and AI moderation.",
     skills: [
       "Next.js",
       "React",
@@ -95,8 +105,7 @@ const projects = [
   },
   {
     name: "J.A.R.V.I.S.",
-    description:
-      "Voice-responsive AI Chatbot. Utilizes OpenAI API to respond to user query. Multi-language support.",
+    description: "Voice‑responsive AI chatbot with multi‑language support.",
     skills: [
       "Next.js",
       "React",
@@ -113,7 +122,7 @@ const projects = [
   {
     name: "CustomerChurnPrediction",
     description:
-      "An end-to-end pipeline for a customer churn prediction mode utilizing three different machine learning models deployed through Python and Streamlit",
+      "End‑to‑end churn prediction with multiple ML models deployed via Streamlit.",
     skills: ["Python", "Streamlit", "Pandas", "Numpy", "Machine Learning"],
     image: "/customerchurn.png",
     link: "https://leochao-customer-churn-prediction.streamlit.app",
@@ -121,7 +130,7 @@ const projects = [
   {
     name: "AI_Trainer",
     description:
-      "NextJS App with a chat interface and API endpoints to handle user queries and responses. Utilizes OpenAI API to respond to user query. Multi-language support.",
+      "Chat interface + API endpoints for AI training assistant with multilingual support.",
     skills: [
       "Next.js",
       "React",
@@ -138,30 +147,28 @@ const projects = [
   {
     name: "my_Pantry",
     description:
-      "NextJS App that tracks pantry ingredients. Utilizes react-camera-pro and OpenAI API to identify images. Real-time creation of recipes using AI.",
+      "Pantry tracker with camera recognition and AI recipe generation.",
     skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Node.js"],
     image: "/mypantry.png",
     link: "https://leonardochao-my-pantry.vercel.app",
   },
   {
     name: "lineup_Tracker",
-    description:
-      "Track NBA lineups. Scrapes data tables on websites. User input functionality. Real-time creation of subsets.",
+    description: "Track NBA lineups via web scraping and interactive subsets.",
     skills: ["Python", "BeautifulSoup", "Requests"],
     image: "/lineuptracker.png",
     link: "https://github.com/lc4490/lineupTracker/blob/main/README.md",
   },
   {
     name: "NBA Player Stat Analysis",
-    description:
-      "Fetch data from basketball-reference. User input functionality. Calculates Standard Deviation for a selected NBA player's statistics.",
+    description: "Basketball‑Reference fetch with STDEV analytics per player.",
     skills: ["Python", "Pandas", "Numpy"],
     image: "/statanalysis.png",
     link: "https://github.com/lc4490/findSTDev/blob/main/README.md",
   },
   {
     name: "Stocks = Steals + Blocks",
-    description: "Parses on-device data-tables. Aggregates player statistics.",
+    description: "On‑device table parsing and stat aggregation.",
     skills: ["Python", "Pandas", "Numpy"],
     image: "/stocks.png",
     link: "https://github.com/lc4490/stocks/blob/main/README.md",
@@ -169,58 +176,55 @@ const projects = [
   {
     name: "MacroTracker",
     description:
-      "Track macros. Manage recipes. Add ingredients. Calculate nutrition. Simple interface. Save & load data.",
+      "Track macros, manage recipes, and calculate nutrition with a simple UI.",
     skills: ["Python", "tkinter"],
     image: "/macrotracker.png",
     link: "https://github.com/lc4490/macro-tracker/blob/master/README.md",
   },
   {
     name: "PyJack",
-    description:
-      "Python blackjack program. Two dealer algorithms. Saved user data. ASCII card art.",
+    description: "Python blackjack with two dealer AIs and ASCII cards.",
     skills: ["Python"],
     image: "/pyjack.png",
     link: "https://github.com/lc4490/blackjack/blob/master/README.md",
   },
   {
     name: "Dandeflies",
-    description:
-      "Javascript P5 project. Combining dandelions and butterflies with P5 animation.",
+    description: "p5.js animation blending dandelions and butterflies.",
     skills: ["JavaScript", "HTML", "CSS"],
     image: "/dandeflies.png",
     link: "https://lc4490.github.io/home/dandeflies/dandeflies.html",
   },
   {
     name: "Star_Carr",
-    description:
-      "Website built in HTML and CSS about the Star Carr archaelogical site.",
+    description: "Informational site about the Star Carr archaeological site.",
     skills: ["HTML", "CSS"],
     image: "/star_carr.png",
     link: "https://lc4490.github.io/star_carr/",
   },
   {
     name: "Erlitou",
-    description:
-      "Website built in HTML and CSS about the Erlitou archaelogical site.",
+    description: "Informational site about the Erlitou archaeological site.",
     skills: ["HTML", "CSS"],
     image: "/erlitou.png",
     link: "https://lc4490.github.io/erlitou/",
   },
   {
     name: "nyu_shell",
-    description: "Linux shell clone built in C",
+    description: "Linux shell clone in C.",
     skills: ["C"],
     image: "/nyush.png",
     link: "https://github.com/lc4490/nyush/blob/main/README.md",
   },
 ];
+
 const skills = [
   { name: "Python", icon: faPython },
   { name: "Next.js", icon: faNodeJs },
   { name: "React", icon: faReact },
   { name: "Firebase", icon: faFireFlameCurved },
   { name: "OpenAI", icon: faBrain },
-  { name: "Postman", icon: "./icons/postman.svg" },
+  { name: "Postman" },
   { name: "RAG" },
   { name: "Node.js" },
   { name: "Clerk" },
@@ -239,52 +243,57 @@ const skills = [
   { name: "Machine Learning" },
 ];
 
-// light/dark themes
-const lightTheme = createTheme({
-  palette: {
-    mode: "light",
-    background: {
-      default: "#ffffff",
-      paper: "#ffffff",
-      bubbles: "lightgray",
-      userBubble: "#95EC69",
+// ---------- THEME ----------
+const getTheme = (mode) =>
+  createTheme({
+    palette: {
+      mode,
+      primary: { main: mode === "dark" ? "#add8e6" : "#0ea5e9" },
+      secondary: { main: mode === "dark" ? "#a78bfa" : "#8b5cf6" },
+      background: {
+        default: mode === "dark" ? "#0b0b0c" : "#f8fafc",
+        paper: mode === "dark" ? "#111113" : "#ffffff",
+        bubbles: mode === "dark" ? "#151517" : "#f1f5f9",
+        userBubble: mode === "dark" ? "#29B560" : "#95EC69",
+      },
     },
-    text: {
-      default: "black",
+    typography: {
+      fontFamily:
+        'Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"',
+      h1: { fontWeight: 800 },
+      h2: { fontWeight: 800 },
+      h3: { fontWeight: 800 },
+      button: { textTransform: "none", fontWeight: 700 },
     },
-  },
-});
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-    background: {
-      default: "black",
-      // default: '#232323',
-      paper: "#121212",
-      bubbles: "#2C2C2C",
-      userBubble: "#29B560",
+    shape: { borderRadius: 14 },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          html: { scrollBehavior: "smooth" },
+          body: {
+            backgroundImage:
+              mode === "dark"
+                ? "radial-gradient(circle at 20% 20%, rgba(167,139,250,.12), transparent 40%), radial-gradient(circle at 80% 0%, rgba(14,165,233,.12), transparent 35%)"
+                : "radial-gradient(circle at 20% 20%, rgba(14,165,233,.12), transparent 40%), radial-gradient(circle at 80% 0%, rgba(139,92,246,.12), transparent 35%)",
+          },
+        },
+      },
     },
-    text: {
-      primary: "#ffffff",
-    },
-  },
-});
+  });
 
+// ---------- COMPONENT ----------
 export default function Home() {
-  // toggle dark mode
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
-  useEffect(() => {
-    setDarkMode(prefersDarkMode);
-  }, [prefersDarkMode]);
-  const theme = darkMode ? darkTheme : lightTheme;
+  useEffect(() => setDarkMode(prefersDarkMode), [prefersDarkMode]);
 
-  // mobile drawer drop down menu
+  const theme = useMemo(
+    () => getTheme(darkMode ? "dark" : "light"),
+    [darkMode]
+  );
+
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  };
 
   // description modal
   const [openDesModal, setOpenDesModal] = useState(false);
@@ -302,1097 +311,599 @@ export default function Home() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: true,
-    prevArrow: <SamplePrevArrow />,
-    nextArrow: <SampleNextArrow />,
+    autoplaySpeed: 3500,
+    arrows: !isMobile,
+    pauseOnHover: true,
   };
-  // arrows
-  function SamplePrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          display: "block",
-          // background: "rgba(0, 0, 0, 0.5)",
-          borderRadius: "50%",
-          zIndex: 1,
-          left: "10px",
-        }}
-        onClick={onClick}
-      />
-    );
-  }
-  function SampleNextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          display: "block",
-          // background: "rgba(0, 0, 0, 0.5)",
-          borderRadius: "50%",
-          zIndex: 1,
-          right: "10px",
-        }}
-        onClick={onClick}
-      />
-    );
-  }
+
   // skill filter
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState(projects);
-  const handleSkillChange = (skill) => {
-    const currentIndex = selectedSkills.indexOf(skill);
-    const newSelectedSkills = [...selectedSkills];
-
-    if (currentIndex === -1) {
-      newSelectedSkills.push(skill);
-    } else {
-      newSelectedSkills.splice(currentIndex, 1);
-    }
-
-    setSelectedSkills(newSelectedSkills);
-    filterProjects(newSelectedSkills);
-  };
-
-  const filterProjects = (skills) => {
-    if (skills.length === 0) {
-      setFilteredProjects(projects);
-    } else {
-      const filtered = projects.filter((project) =>
-        skills.some((skill) => project.skills.includes(skill))
+  const handleSkillToggle = (skill) => {
+    const newSelected = selectedSkills.includes(skill)
+      ? selectedSkills.filter((s) => s !== skill)
+      : [...selectedSkills, skill];
+    setSelectedSkills(newSelected);
+    if (newSelected.length === 0) setFilteredProjects(projects);
+    else
+      setFilteredProjects(
+        projects.filter((p) => newSelected.some((s) => p.skills.includes(s)))
       );
-      setFilteredProjects(filtered);
-    }
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline>
-        <Box
-          width="100vw"
-          // height="100vh"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          flexDirection="column"
-          bgcolor="background.default"
-          fontFamily="sans-serif"
-        >
-          {/* description modal */}
-          <Modal open={openDesModal} onClose={() => setOpenDesModal(false)}>
-            <Box
-              overflow="auto"
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 400,
-                height: "75%",
-                bgcolor: "background.default",
-                border: "2px solid #000",
-                boxShadow: 24,
-                p: 4,
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                width="100%"
+      <CssBaseline />
+      {/* HEADER */}
+      <Box
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 1100,
+          backdropFilter: "saturate(180%) blur(12px)",
+          backgroundColor: (t) => alpha(t.palette.background.default, 0.75),
+          borderBottom: "1px solid",
+          borderColor: "divider",
+        }}
+      >
+        <Container maxWidth="lg" sx={{ py: 1.5 }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            gap={2}
+          >
+            <Stack direction="row" gap={1.5} alignItems="center">
+              {/* <Button
+                component={NextLink}
+                href="#home"
+                color="inherit"
+                sx={{ fontWeight: 800 }}
               >
-                {/* image button */}
-                <Button
-                  href={projects[selectedProject]["link"]}
-                  target="_blank"
-                >
-                  <Image
-                    src={projects[selectedProject]["image"]}
-                    alt="banner"
-                    // layout="responsive"
-                    width={"800"}
-                    height={"400"}
-                    style={{ width: "100%", height: "85%", objectFit: "cover" }}
-                  ></Image>
-                </Button>
-              </Box>
-              {/* name */}
-              <Typography variant="h6" component="h2" fontWeight="600">
-                {projects[selectedProject]["name"]}
-              </Typography>
-              {/* skills */}
-              <Typography sx={{ mt: 2 }}>
-                <strong>Skills:</strong>{" "}
-                {projects[selectedProject]["skills"].join(", ")}
-              </Typography>
-              {/* description */}
-              <Typography sx={{ mt: 2 }}>
-                <strong>Description:</strong>{" "}
-                {projects[selectedProject]["description"]}
-              </Typography>
-              <Box sx={{ flexGrow: 1 }} />
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  setOpenDesModal(false);
-                }}
-                sx={{
-                  mt: 2,
-                  backgroundColor: "text.primary",
-                  color: "background.default",
-                  borderColor: "text.primary",
-                  "&:hover": {
-                    backgroundColor: "darkgray",
-                    color: "text.primary",
-                    borderColor: "text.primary",
-                  },
-                }}
-              >
-                Close
-              </Button>
-            </Box>
-          </Modal>
-          {/* main box */}
-          <Box id="home" width="100%" height="100%">
-            {/* header */}
-            <Box
-              width="100%"
-              height="12vh"
-              bgcolor="background.default"
-              // bgcolor="red"
-              display="flex"
-              flexDirection={"column"}
-              justifyContent="space-between"
-              paddingX={"1%"}
-              alignItems="center"
-              position="sticky"
-              top="0" // Stick to the top of the viewport
-              zIndex="1000"
-            >
-              {isMobile ? (
-                <Box
-                  width="100%"
-                  height="100%"
-                  paddingX={2.5}
-                  flexDirection={"row"}
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                >
-                  {/* Home */}
-                  <Button
-                    href="#home"
-                    sx={{
-                      backgroundColor: "background.default",
-                      color: "text.primary",
-                      borderColor: "background.default",
-                      borderRadius: "10px",
-                      fontWeight: "700",
-                      "&:hover": {
-                        backgroundColor: "text.primary",
-                        color: "background.default",
-                        borderColor: "text.primary",
-                      },
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontWeight: "700",
-                        fontSize: "1.25rem",
-                      }}
-                    >
-                      Home
-                    </Typography>
-                  </Button>
-                  {/* drawer */}
-                  <IconButton
-                    onClick={handleDrawerToggle}
-                    sx={{
-                      color: "text.primary",
-                    }}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  {/* drawer */}
-                  <Drawer
-                    anchor="right"
-                    open={drawerOpen}
-                    onClose={handleDrawerToggle}
-                  >
-                    {/* Drawer items */}
-                    <Box
-                      width="300px"
-                      height="100%"
-                      display="flex"
-                      flexDirection="column"
-                      justifyContent="space-between"
-                      paddingTop={2}
-                    >
-                      {/* LEO/Resume/Projects/Skills/Bio */}
-                      <Box
-                        width="100%"
-                        display="flex"
-                        flexDirection="column"
-                        justifyContent="space-between"
-                        alignItems="baseline"
-                        gap={1.5}
-                        paddingX={2}
-                      >
-                        {/* close Icon */}
-                        <Box
-                          width="100%"
-                          display="flex"
-                          justifyContent="end"
-                          onClick={handleDrawerToggle}
-                        >
-                          <CloseIcon sx={{ fontSize: "1.5rem" }} />
-                        </Box>
-                        {/* Bio */}
-                        <Button
-                          href="#bio"
-                          sx={{
-                            fontSize: "1rem",
-                            // backgroundColor: 'background.default',
-                            color: "text.primary",
-                            borderColor: "background.default",
-                            borderRadius: "10px",
-                            "&:hover": {
-                              backgroundColor: "text.primary",
-                              color: "background.default",
-                              borderColor: "text.primary",
-                            },
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontWeight: "700",
-                              fontSize: "1.5rem",
-                            }}
-                          >
-                            Bio
-                          </Typography>
-                        </Button>
-                        {/* Skills */}
-                        <Button
-                          href="#skills"
-                          sx={{
-                            fontSize: "1rem",
-                            // backgroundColor: 'background.default',
-                            color: "text.primary",
-                            borderColor: "background.default",
-                            borderRadius: "10px",
-                            "&:hover": {
-                              backgroundColor: "text.primary",
-                              color: "background.default",
-                              borderColor: "text.primary",
-                            },
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontWeight: "700",
-                              fontSize: "1.5rem",
-                            }}
-                          >
-                            Skills
-                          </Typography>
-                        </Button>
-                        {/* Projects */}
-                        <Button
-                          href="#projects"
-                          sx={{
-                            fontSize: "1rem",
-                            // backgroundColor: 'background.default',
-                            color: "text.primary",
-                            borderColor: "background.default",
-                            borderRadius: "10px",
-                            "&:hover": {
-                              backgroundColor: "text.primary",
-                              color: "background.default",
-                              borderColor: "text.primary",
-                            },
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontWeight: "700",
-                              fontSize: "1.5rem",
-                            }}
-                          >
-                            Projects
-                          </Typography>
-                        </Button>
-                        {/* Resume */}
-                        <Button
-                          href="/Resume.pdf"
-                          target="_blank"
-                          sx={{
-                            // backgroundColor: 'background.default',
-                            color: "text.primary",
-                            borderColor: "background.default",
-                            borderRadius: "10px",
-                            "&:hover": {
-                              backgroundColor: "text.primary",
-                              color: "background.default",
-                              borderColor: "text.primary",
-                            },
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontWeight: "700",
-                              fontSize: "1.5rem",
-                            }}
-                          >
-                            Resume
-                          </Typography>
-                        </Button>
-                      </Box>
-                      {/* github/linkedin */}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: 1,
-                          justifyContent: "center",
-                        }}
-                      >
-                        {/* github */}
-                        <Button
-                          href="https://github.com/lc4490"
-                          target="_blank"
-                          sx={{
-                            aspectRatio: 1,
-                            // backgroundColor: 'background.default',
-                            color: "text.primary",
-                            borderColor: "background.default",
-                            borderRadius: "50px",
-                            "&:hover": {
-                              backgroundColor: "text.primary",
-                              color: "background.default",
-                              borderColor: "text.primary",
-                            },
-                          }}
-                        >
-                          <GitHubIcon sx={{ fontSize: "2rem" }} />
-                        </Button>
-                        {/* linkedin */}
-                        <Button
-                          href="https://www.linkedin.com/in/leo-chao-0334602a6/"
-                          target="_blank"
-                          sx={{
-                            aspectRatio: 1,
-                            // backgroundColor: 'background.default',
-                            color: "text.primary",
-                            borderColor: "background.default",
-                            borderRadius: "50px",
-                            "&:hover": {
-                              backgroundColor: "text.primary",
-                              color: "background.default",
-                              borderColor: "text.primary",
-                            },
-                          }}
-                        >
-                          <LinkedInIcon sx={{ fontSize: "2rem" }} />
-                        </Button>
-                        {/* email */}
-                        <Button
-                          href="mailto:lc4490@nyu.edu?..."
-                          sx={{
-                            aspectRatio: 1,
-                            // backgroundColor: 'background.default',
-                            color: "text.primary",
-                            borderColor: "background.default",
-                            borderRadius: "50px",
-                            "&:hover": {
-                              backgroundColor: "text.primary",
-                              color: "background.default",
-                              borderColor: "text.primary",
-                            },
-                          }}
-                        >
-                          <EmailIcon sx={{ fontSize: "2rem" }} />
-                        </Button>
-                      </Box>
-                    </Box>
-                  </Drawer>
-                </Box>
-              ) : (
-                <Box
-                  width="100%"
-                  height="100%"
-                  display="flex"
-                  justifyContent="space-between"
-                  paddingX={2.5}
-                >
-                  {/* Home/Resume/Projects/Skills/Bio */}
-                  <Box
-                    width="100%"
-                    display="flex"
-                    justifyContent="space-between"
-                  >
-                    {/* Home */}
+                <Typography variant="h6">Leo Chao</Typography>
+              </Button> */}
+              {!isMobile && (
+                <Stack direction="row" gap={1}>
+                  {[
+                    { href: "#bio", label: "Bio" },
+                    { href: "#skills", label: "Skills" },
+                    { href: "#projects", label: "Projects" },
+                    { href: "/Resume.pdf", label: "Resume", external: true },
+                  ].map((item) => (
                     <Button
-                      href="#home"
+                      key={item.label}
+                      component={NextLink}
+                      href={item.href}
+                      target={item.external ? "_blank" : undefined}
+                      color="inherit"
                       sx={{
-                        // width: "20%",
-                        backgroundColor: "background.default",
-                        color: "text.primary",
-                        borderColor: "background.default",
-                        borderRadius: "10px",
+                        borderRadius: 2,
+                        px: 1.5,
                         "&:hover": {
-                          backgroundColor: "text.primary",
-                          color: "background.default",
-                          borderColor: "text.primary",
+                          backgroundColor: alpha(
+                            theme.palette.text.primary,
+                            0.08
+                          ),
                         },
                       }}
                     >
-                      <Typography
-                        sx={{
-                          fontWeight: "700",
-                          fontSize: "1.25rem",
-                        }}
-                      >
-                        Home
-                      </Typography>
+                      {item.label}
                     </Button>
-                    {/* Bio */}
-                    <Button
-                      href="#bio"
-                      sx={{
-                        // width: "20%",
-                        fontSize: "1rem",
-                        backgroundColor: "background.default",
-                        color: "text.primary",
-                        borderColor: "background.default",
-                        borderRadius: "10px",
-                        "&:hover": {
-                          backgroundColor: "text.primary",
-                          color: "background.default",
-                          borderColor: "text.primary",
-                        },
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontWeight: "700",
-                          fontSize: "1.25rem",
-                        }}
-                      >
-                        Bio
-                      </Typography>
-                    </Button>
-                    {/* Skills */}
-                    <Button
-                      href="#skills"
-                      sx={{
-                        // width: "20%",
-                        fontSize: "1rem",
-                        backgroundColor: "background.default",
-                        color: "text.primary",
-                        borderColor: "background.default",
-                        borderRadius: "10px",
-                        "&:hover": {
-                          backgroundColor: "text.primary",
-                          color: "background.default",
-                          borderColor: "text.primary",
-                        },
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontWeight: "700",
-                          fontSize: "1.25rem",
-                        }}
-                      >
-                        Skills
-                      </Typography>
-                    </Button>
-                    {/* Projects */}
-                    <Button
-                      href="#projects"
-                      sx={{
-                        // width: "20%",
-                        fontSize: "1rem",
-                        backgroundColor: "background.default",
-                        color: "text.primary",
-                        borderColor: "background.default",
-                        borderRadius: "10px",
-                        "&:hover": {
-                          backgroundColor: "text.primary",
-                          color: "background.default",
-                          borderColor: "text.primary",
-                        },
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontWeight: "700",
-                          fontSize: "1.25rem",
-                        }}
-                      >
-                        Projects
-                      </Typography>
-                    </Button>
-                    {/* Resume */}
-                    <Button
-                      href="/Resume.pdf"
-                      target="_blank"
-                      sx={{
-                        // width: "20%",
-                        fontSize: "1rem",
-                        backgroundColor: "background.default",
-                        color: "text.primary",
-                        borderColor: "background.default",
-                        borderRadius: "10px",
-                        "&:hover": {
-                          backgroundColor: "text.primary",
-                          color: "background.default",
-                          borderColor: "text.primary",
-                        },
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontWeight: "700",
-                          fontSize: "1.25rem",
-                        }}
-                      >
-                        Resume
-                      </Typography>
-                    </Button>
-                  </Box>
-                  <Box width="125%"></Box>
-                  {/* github/linkedin */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 1,
-                      alignItems: "center",
-                    }}
-                  >
-                    {/* github */}
-                    <Button
-                      href="https://github.com/lc4490"
-                      target="_blank"
-                      sx={{
-                        aspectRatio: 1,
-                        backgroundColor: "background.default",
-                        color: "text.primary",
-                        borderColor: "background.default",
-                        borderRadius: "50px",
-                        "&:hover": {
-                          backgroundColor: "text.primary",
-                          color: "background.default",
-                          borderColor: "text.primary",
-                        },
-                      }}
-                    >
-                      <GitHubIcon sx={{ fontSize: "2rem" }} />
-                    </Button>
-                    {/* linkedin */}
-                    <Button
-                      href="https://www.linkedin.com/in/leo-chao-0334602a6/"
-                      target="_blank"
-                      sx={{
-                        aspectRatio: 1,
-                        backgroundColor: "background.default",
-                        color: "text.primary",
-                        borderColor: "background.default",
-                        borderRadius: "50px",
-                        "&:hover": {
-                          backgroundColor: "text.primary",
-                          color: "background.default",
-                          borderColor: "text.primary",
-                        },
-                      }}
-                    >
-                      <LinkedInIcon sx={{ fontSize: "2rem" }} />
-                    </Button>
-                    {/* email */}
-                    <Button
-                      href="mailto:lc4490@nyu.edu?..."
-                      sx={{
-                        aspectRatio: 1,
-                        backgroundColor: "background.default",
-                        color: "text.primary",
-                        borderColor: "background.default",
-                        borderRadius: "50px",
-                        "&:hover": {
-                          backgroundColor: "text.primary",
-                          color: "background.default",
-                          borderColor: "text.primary",
-                        },
-                      }}
-                    >
-                      <EmailIcon sx={{ fontSize: "2rem" }} />
-                    </Button>
-                  </Box>
-                </Box>
+                  ))}
+                </Stack>
               )}
-              <Divider
-                sx={{
-                  // bgcolor: 'rgba(0, 0, 0, 0.1)',  // Light black color
-                  // height: 1,  // Divider height
-                  display: "flex",
-                  position: "relative",
-                  justifyContent: "end",
-                  alignItems: "end",
-                  width: "100vw", // Full width
-                }}
+            </Stack>
+
+            <Stack direction="row" gap={1} alignItems="center">
+              <IconButton
+                onClick={() => setDarkMode((v) => !v)}
+                color="inherit"
+                aria-label="Toggle dark mode"
+              >
+                {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+              </IconButton>
+
+              {!isMobile && (
+                <Stack direction="row" gap={1}>
+                  <IconButton
+                    component={MUILink}
+                    href="https://github.com/lc4490"
+                    target="_blank"
+                    color="inherit"
+                  >
+                    <GitHubIcon />
+                  </IconButton>
+                  <IconButton
+                    component={MUILink}
+                    href="https://www.linkedin.com/in/leo-chao-0334602a6/"
+                    target="_blank"
+                    color="inherit"
+                  >
+                    <LinkedInIcon />
+                  </IconButton>
+                  <IconButton
+                    component={MUILink}
+                    href="mailto:lc4490@nyu.edu"
+                    color="inherit"
+                  >
+                    <EmailIcon />
+                  </IconButton>
+                </Stack>
+              )}
+
+              {isMobile && (
+                <IconButton onClick={() => setDrawerOpen(true)} color="inherit">
+                  <MenuIcon />
+                </IconButton>
+              )}
+            </Stack>
+          </Stack>
+        </Container>
+      </Box>
+
+      {/* MOBILE DRAWER */}
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
+        <Box
+          sx={{
+            width: 300,
+            p: 2,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography variant="h6" fontWeight={800}>
+              Menu
+            </Typography>
+            <IconButton onClick={() => setDrawerOpen(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Stack>
+          <Divider sx={{ my: 2 }} />
+          {[
+            { href: "#bio", label: "Bio" },
+            { href: "#skills", label: "Skills" },
+            { href: "#projects", label: "Projects" },
+            { href: "/Resume.pdf", label: "Resume", external: true },
+          ].map((item) => (
+            <Button
+              key={item.label}
+              component={NextLink}
+              href={item.href}
+              target={item.external ? "_blank" : undefined}
+              onClick={() => setDrawerOpen(false)}
+              sx={{
+                justifyContent: "flex-start",
+                mb: 0.5,
+                py: 1.25,
+                fontSize: { xs: 16, sm: 14 },
+              }}
+              color="inherit"
+            >
+              {item.label}
+            </Button>
+          ))}
+          <Stack direction="row" gap={1} sx={{ mt: "auto" }}>
+            <IconButton
+              component={MUILink}
+              href="https://github.com/lc4490"
+              target="_blank"
+              color="inherit"
+            >
+              <GitHubIcon />
+            </IconButton>
+            <IconButton
+              component={MUILink}
+              href="https://www.linkedin.com/in/leo-chao-0334602a6/"
+              target="_blank"
+              color="inherit"
+            >
+              <LinkedInIcon />
+            </IconButton>
+            <IconButton
+              component={MUILink}
+              href="mailto:lc4490@nyu.edu"
+              color="inherit"
+            >
+              <EmailIcon />
+            </IconButton>
+          </Stack>
+        </Box>
+      </Drawer>
+
+      {/* BIO */}
+      <Container id="bio" maxWidth="lg" sx={{ py: { xs: 6, sm: 8 } }}>
+        <Grid container spacing={4} alignItems="center">
+          <Grid item xs={12} md={5}>
+            <Box
+              sx={{ position: "relative", width: "75%", aspectRatio: "1/1" }}
+            >
+              <Image
+                src="/pic00.jpg"
+                alt="Leo Chao"
+                fill
+                style={{ objectFit: "cover", borderRadius: 16 }}
               />
             </Box>
-            {/* Project slideshow */}
-            <Box width="100%" backgroundColor="background.bubbles" paddingX={0}>
-              <Slider {...settings}>
-                {projects.slice(0, 5).map((project, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      width: "100%",
-                      height: isMobile ? "325px" : "500px",
-                      // padding: 5,
-                    }}
-                  >
-                    <Button
-                      href={project.link}
-                      target="_blank"
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        height: "100%",
-                        padding: 0,
-                        justifyContent: "left",
-                        alignItems: "baseline",
-                        backgroundColor: "black",
-                      }}
-                    >
-                      <Image
-                        src={project.image}
-                        alt={project.name}
-                        layout="fill"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          opacity: "50%",
-                        }}
-                      />
-                      <Stack
-                        style={{
-                          left: "5%",
-                          width: isMobile ? "400px" : "500px",
-                          height: "90%",
-                          // backgroundColor: 'red',
-                          flexGrow: 1,
-                          display: "flex",
-                          justifyContent: "end",
-                          // alignItems: "end",
-                          overflow: "hidden",
-                          padding: 5,
-                          position: "absolute",
-                        }}
-                      >
-                        <Typography
-                          variant={isMobile ? "h4" : "h3"}
-                          color="white"
-                          // textAlign="center"
-                          fontWeight="700"
-                          sx={
-                            {
-                              // WebkitTextStroke: '1px lightgray', // Stroke color and thickness
-                            }
-                          }
-                        >
-                          {project.name}
-                        </Typography>
-                        <Typography
-                          variant="h8"
-                          color="white"
-                          sx={
-                            {
-                              // backgroundColor: "gray",
-                              // WebkitTextStroke: '1px gray', // Stroke color and thickness
-                            }
-                          }
-                          // textAlign="center"
-                          // fontWeight="700"
-                        >
-                          {project.description}
-                        </Typography>
-                      </Stack>
-                    </Button>
-                  </Box>
-                ))}
-              </Slider>
-            </Box>
-            {/* Bio */}
-            <Box id="bio" sx={{ height: 0 }}></Box>
-            {/* <Typography id = "bio" paddingX={2.5} paddingY = {"1%"} variant="h4" color="text.primary" fontWeight="bold">Bio:</Typography> */}
-            <Box
-              sx={{
-                // height: "60vh",
-                // backgroundColor: "red",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "baseline",
-                flexDirection: "row",
-                marginTop: 10,
-              }}
-            >
-              <Stack
-                sx={{
-                  width: isMobile ? "90%" : "75%",
-                  // backgroundColor: "green",
-                  display: "flex",
-                  // justifyContent: "space-between",
-                  alignItems: "center",
-                  flexDirection: isMobile ? "column" : "row",
-                }}
+          </Grid>
+          <Grid item xs={12} md={7}>
+            <Stack spacing={2}>
+              <Typography
+                variant="h3"
+                sx={{ fontSize: { xs: "clamp(24px, 7vw, 30px)", sm: 40 } }}
               >
-                <Image
-                  src={"/pic00.jpg"}
-                  alt="grad"
-                  width="350"
-                  height="350"
-                ></Image>
-                <Stack
+                Hi, I’m Leo Chao.
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                I’m a recent Computer Science & Data Science graduate from NYU.
+                I build full‑stack apps, analyze data, and ship user‑centric
+                products. I’m fluent across modern web stacks and love turning
+                ideas into polished, performant experiences.
+              </Typography>
+              <Stack direction="row" gap={1}>
+                <Button
+                  component={NextLink}
+                  href="/Resume.pdf"
+                  target="_blank"
+                  variant="contained"
+                >
+                  View Resume
+                </Button>
+                <Button
+                  component={NextLink}
+                  href="#projects"
+                  variant="outlined"
+                >
+                  See Projects
+                </Button>
+              </Stack>
+            </Stack>
+          </Grid>
+        </Grid>
+      </Container>
+
+      {/* HERO / SLIDESHOW */}
+      <Box id="home" sx={{ backgroundColor: "background.bubbles" }}>
+        <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 4 } }}>
+          <Box
+            sx={{
+              position: "relative",
+              borderRadius: 3,
+              overflow: "hidden",
+              boxShadow: 3,
+            }}
+          >
+            <Slider {...settings}>
+              {projects.slice(0, 5).map((project, index) => (
+                <Box
+                  key={index}
                   sx={{
-                    // backgroundColor: "blue",
-                    width: "100%",
-                    height: "300px",
-                    justifyContent: "space-between",
-                    padding: isMobile ? 0 : 5,
-                    paddingY: 1,
+                    position: "relative",
+                    height: { xs: 220, sm: 360, md: 460 },
                   }}
                 >
-                  <Typography
-                    variant="h4"
+                  <Image
+                    src={project.image}
+                    alt={project.name}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                  <Box
                     sx={{
-                      fontSize: isMobile ? "1.5rem" : "3rem",
-                      fontWeight: "700",
-                      color: "text.primary",
-                      // fontSize: "2rem",
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(180deg, rgba(0,0,0,.0) 10%, rgba(0,0,0,.6) 80%)",
                     }}
+                  />
+                  <Container
+                    maxWidth="lg"
+                    sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}
                   >
-                    Hi, my name is Leo Chao.
-                  </Typography>
-                  <Typography
-                    variant="h7"
-                    sx={{
-                      // fontSize: "2rem",
-                      color: "text.primary",
-                    }}
-                  >
-                    I am a recent Computer Science and Data Science graduate
-                    from NYU, with experience in web development, data analysis,
-                    and project management, fluent in multiple programming
-                    languages and passionate about leveraging technology to
-                    solve real-world problems.
-                  </Typography>
-                  <Box>
-                    <Button
-                      href="/Resume.pdf"
-                      target="_blank"
-                      sx={{
-                        display: "flex",
-                        // justifyContent: "start",
-                        border: "2.5px solid gray",
-                        fontSize: "1.15rem",
-                        fontWeight: "700",
-                        color: "text.primary",
-                        padding: 2,
-                      }}
-                    >
-                      Click to see my Resume
-                    </Button>
-                  </Box>
-                </Stack>
-
-                {/* </Box> */}
-              </Stack>
-            </Box>
-            <Box id="skills" sx={{ height: 50 }}></Box>
-            {/* skills */}
-            <Typography
-              position="relative"
-              paddingX={2.5}
-              paddingY={"1%"}
-              variant="h4"
-              color="text.primary"
-              fontWeight="bold"
-            >
-              Skills:
-            </Typography>
-            <Stack
-              position="relative"
-              paddingX={2.5}
-              flexDirection="row"
-              alignItems="center"
-              style={{ maxWidth: "100%", overflow: "auto" }}
-            >
-              <FilterAltIcon sx={{ fontSize: "3rem" }}></FilterAltIcon>
-              {skills.map(({ name, icon }, index) => (
-                <Stack
-                  item
-                  xs={6}
-                  sm={2}
-                  key={index}
-                  flexDirection={"row"}
-                  padding={1}
-                >
-                  <IconButton
-                    key={index}
-                    onClick={() => handleSkillChange(name)}
-                    sx={{
-                      // width: "50px",
-                      // aspectRatio: 1,
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      backgroundColor: selectedSkills.includes(name)
-                        ? "text.primary"
-                        : "background.bubbles",
-                      color: selectedSkills.includes(name)
-                        ? "background.default"
-                        : "text.primary",
-                      // border: "1px solid gray",
-                      borderRadius: "10px",
-                      "&:hover": {
-                        backgroundColor: "text.primary",
-                        color: "background.default",
-                        borderColor: "text.primary",
-                      },
-                    }}
-                  >
-                    {/* <FontAwesomeIcon
-                    icon={icon}
-                    size="1x"
-                  /> */}
-                    <Typography
-                      // variant='h8'
-                      sx={{
-                        padding: "5",
-                        // width: "150px",
-                        display: "flex",
-                        justifyContent: "start",
-                        alignItems: "center",
-                        paddingX: 2.5,
-                        fontWeight: "700",
-                      }}
-                    >
-                      {name}
-                    </Typography>
-                  </IconButton>
-                </Stack>
-              ))}
-            </Stack>
-            <Box id="projects" sx={{ height: 50 }}></Box>
-            {/* projects  */}
-            <Typography
-              paddingX={2.5}
-              paddingY={"1%"}
-              variant="h4"
-              color="text.primary"
-              fontWeight="bold"
-            >
-              Projects:
-            </Typography>
-            <Grid container spacing={"1%"} paddingX={2.5} paddingY={5}>
-              {filteredProjects.map(
-                ({ name, description, image, link }, index) => (
-                  // projects grid
-                  <Grid
-                    item
-                    xs={12}
-                    sm={4}
-                    key={index}
-                    flexDirection="column"
-                    alignItems="center"
-                    gap={1}
-                  >
-                    <Button
-                      key={index}
-                      href={link}
-                      target="_blank"
-                      sx={{
-                        width: "100%",
-                        aspectRatio: 16 / 9,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "background.default",
-                        border: "1px solid background.default",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <Image
-                        src={image}
-                        alt="temp"
-                        width={200}
-                        height={200}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "10px",
-                          objectFit: "cover",
-                          opacity: "50%",
-                        }}
-                      />
-                      {/* <Stack
-                      style={{
-                        flexGrow: 1,
-                        textAlign: "center",
-                        overflow: 'hidden',
-                        padding: 5,
-                        position: 'absolute',
-                      }}
+                    <Stack
+                      spacing={1.2}
+                      sx={{ p: { xs: 2, sm: 3 }, pb: { xs: 2.5, sm: 3.5 } }}
                     >
                       <Typography
-                        variant="h5"
-                        color="white"
-                        textAlign="center"
-                        fontWeight="550"
-                        >
-                        {name}
+                        variant="h4"
+                        color="#fff"
+                        fontWeight={800}
+                        sx={{
+                          fontSize: {
+                            xs: "clamp(20px, 6vw, 28px)",
+                            sm: "clamp(22px, 4vw, 32px)",
+                          },
+                        }}
+                      >
+                        {project.name}
                       </Typography>
-                      
-                  </Stack> */}
-                    </Button>
-                    <Button
-                      onClick={() => handleDesModal(index)}
-                      sx={{
-                        // bgcolor: "text.primary",
-                        color: "text.primary",
-                        borderRadius: "25px",
-                        // padding: '10px',
-                        marginLeft: "25px",
-                        fontWeight: "700",
-                        gap: 1,
-                        "&:hover": {
-                          backgroundColor: "darkgray",
-                          color: "text.primary",
-                          borderColor: "text.primary",
-                        },
-                      }}
-                    >
-                      {/* {name} Bio */}
-                      {name}
-                      <InfoIcon />
-                    </Button>
-                  </Grid>
-                )
-              )}
-            </Grid>
-            {/* footer */}
-            <Divider></Divider>
-            <Box
+                      <Typography
+                        variant="body1"
+                        color="#fff"
+                        sx={{
+                          fontSize: {
+                            xs: "clamp(12px, 3.4vw, 14px)",
+                            sm: "clamp(13px, 2vw, 16px)",
+                          },
+                        }}
+                      >
+                        {project.description}
+                      </Typography>
+                      <Stack direction="row" gap={1}>
+                        <Button
+                          component={MUILink}
+                          href={project.link}
+                          target="_blank"
+                          variant="contained"
+                          color="primary"
+                        >
+                          View project
+                        </Button>
+                        <Button
+                          onClick={() => handleDesModal(index)}
+                          variant="outlined"
+                          sx={{
+                            color: "#fff",
+                            borderColor: alpha("#fff", 0.6),
+                          }}
+                        >
+                          Details
+                        </Button>
+                      </Stack>
+                    </Stack>
+                  </Container>
+                </Box>
+              ))}
+            </Slider>
+          </Box>
+        </Container>
+      </Box>
+
+      {/* SKILLS */}
+      <Container id="skills" maxWidth="lg" sx={{ py: { xs: 4, sm: 6 } }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          gap={1.5}
+          sx={{ mb: 2, mt: 2 }}
+        >
+          <FilterAltIcon />
+          <Typography variant="h4">Skills</Typography>
+        </Stack>
+        <Stack direction="row" flexWrap="wrap" gap={1}>
+          {skills.map(({ name, icon }) => (
+            <Chip
+              key={name}
+              size={isMobile ? "medium" : "small"}
+              label={
+                <Stack direction="row" alignItems="center" gap={1}>
+                  {icon ? <FontAwesomeIcon icon={icon} width={14} /> : null}
+                  <span>{name}</span>
+                </Stack>
+              }
+              onClick={() => handleSkillToggle(name)}
+              variant={selectedSkills.includes(name) ? "filled" : "outlined"}
+              color={selectedSkills.includes(name) ? "primary" : "default"}
               sx={{
-                // backgroundColor:"red",
-                width: "100%",
-                height: "40vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
+                px: { xs: 1.25, sm: 1 },
+                minHeight: { xs: 36, sm: 28 },
+                "& .MuiChip-label": { fontWeight: 700 },
               }}
-            >
-              <Box
+            />
+          ))}
+        </Stack>
+      </Container>
+
+      {/* PROJECTS */}
+      <Container id="projects" maxWidth="lg" sx={{ py: { xs: 4, sm: 6 } }}>
+        <Typography
+          variant="h4"
+          sx={{
+            mb: 2,
+            mt: 2,
+            fontSize: { xs: "clamp(22px, 6vw, 28px)", sm: 32 },
+          }}
+        >
+          Projects
+        </Typography>
+        <Grid container spacing={{ xs: 1.5, sm: 2.5 }}>
+          {filteredProjects.map((p, index) => (
+            <Grid key={p.name + index} item xs={12} sm={6} md={4}>
+              <Card
                 sx={{
-                  // backgroundColor: "green",
-                  width: "50%",
-                  height: "50%",
+                  height: "100%",
                   display: "flex",
-                  justifyContent: "center",
-                  gap: 2,
+                  flexDirection: "column",
+                  background: (t) =>
+                    `linear-gradient(180deg, ${alpha(
+                      t.palette.background.paper,
+                      0.9
+                    )}, ${alpha(t.palette.background.paper, 0.95)})`,
+                  boxShadow: 2,
+                  transition: "transform .25s ease, box-shadow .25s ease",
+                  "&:hover": { transform: "translateY(-4px)", boxShadow: 6 },
                 }}
               >
-                {/* github */}
-                <Button
-                  href="https://github.com/lc4490"
+                <CardActionArea
+                  component={MUILink}
+                  href={p.link}
                   target="_blank"
-                  sx={{
-                    width: "65px",
-                    height: "65px",
-                    // aspectRatio: 1,
-                    backgroundColor: "background.default",
-                    color: "text.primary",
-                    border: 1,
-                    borderColor: "gray",
-                    borderRadius: "50px",
-                    "&:hover": {
-                      backgroundColor: "text.primary",
-                      color: "background.default",
-                      borderColor: "text.primary",
-                    },
-                  }}
+                  sx={{ borderRadius: 2 }}
                 >
-                  <GitHubIcon sx={{ fontSize: "2rem" }} />
-                </Button>
-                {/* linkedin */}
-                <Button
-                  href="https://www.linkedin.com/in/leo-chao-0334602a6/"
-                  target="_blank"
-                  sx={{
-                    width: "65px",
-                    height: "65px",
-                    aspectRatio: 1,
-                    backgroundColor: "background.default",
-                    color: "text.primary",
-                    border: 1,
-                    borderColor: "gray",
-                    borderRadius: "50px",
-                    "&:hover": {
-                      backgroundColor: "text.primary",
-                      color: "background.default",
-                      borderColor: "text.primary",
-                    },
-                  }}
-                >
-                  <LinkedInIcon sx={{ fontSize: "2rem" }} />
-                </Button>
-                {/* email */}
-                <Button
-                  href="mailto:lc4490@nyu.edu?..."
-                  sx={{
-                    width: "65px",
-                    height: "65px",
-                    aspectRatio: 1,
-                    backgroundColor: "background.default",
-                    color: "text.primary",
-                    border: 1,
-                    borderColor: "gray",
-                    borderRadius: "50px",
-                    "&:hover": {
-                      backgroundColor: "text.primary",
-                      color: "background.default",
-                      borderColor: "text.primary",
-                    },
-                  }}
-                >
-                  <EmailIcon sx={{ fontSize: "2rem" }} />
-                </Button>
-              </Box>
-              <Typography>
-                © 2024 Leo Chao | v2.0 |{" "}
-                <Link
-                  href="https://lc4490.github.io/home/"
-                  color="text.primary"
-                >
-                  Previous website
-                </Link>
-              </Typography>
+                  <CardMedia
+                    sx={{
+                      position: "relative",
+                      pt: { xs: "62%", sm: "56.25%" },
+                    }}
+                  >
+                    <Image
+                      src={p.image}
+                      alt={p.name}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  </CardMedia>
+                </CardActionArea>
+                <CardContent>
+                  <Typography variant="h6" fontWeight={700} gutterBottom>
+                    {p.name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 1.5 }}
+                  >
+                    {p.description}
+                  </Typography>
+                  <Stack direction="row" gap={0.75} flexWrap="wrap">
+                    {p.skills.slice(0, 4).map((s) => (
+                      <Chip key={s} label={s} size="small" variant="outlined" />
+                    ))}
+                    {p.skills.length > 4 && (
+                      <Chip size="small" label={`+${p.skills.length - 4}`} />
+                    )}
+                  </Stack>
+                  <Stack direction="row" gap={1} sx={{ mt: 2 }}>
+                    <Button
+                      component={MUILink}
+                      href={p.link}
+                      target="_blank"
+                      size="small"
+                      variant="contained"
+                    >
+                      Open
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      endIcon={<InfoIcon />}
+                      onClick={() => handleDesModal(index)}
+                    >
+                      Details
+                    </Button>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      {/* DESCRIPTION MODAL */}
+      <Modal open={openDesModal} onClose={() => setOpenDesModal(false)}>
+        <Box
+          sx={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: { xs: "90%", sm: 560 },
+            maxHeight: "80vh",
+            overflow: "auto",
+            bgcolor: "background.paper",
+            borderRadius: 3,
+            boxShadow: 24,
+            p: 2,
+          }}
+        >
+          <Stack gap={2}>
+            <Box
+              sx={{
+                position: "relative",
+                width: "100%",
+                pt: "56.25%",
+                borderRadius: 2,
+                overflow: "hidden",
+              }}
+            >
+              <Image
+                src={projects[selectedProject].image}
+                alt={projects[selectedProject].name}
+                fill
+                style={{ objectFit: "cover" }}
+              />
             </Box>
-          </Box>
+            <Typography variant="h5" fontWeight={800}>
+              {projects[selectedProject].name}
+            </Typography>
+            <Typography>
+              <strong>Skills:</strong>{" "}
+              {projects[selectedProject].skills.join(", ")}
+            </Typography>
+            <Typography>
+              <strong>Description:</strong>{" "}
+              {projects[selectedProject].description}
+            </Typography>
+            <Stack direction="row" gap={1}>
+              <Button
+                component={MUILink}
+                href={projects[selectedProject].link}
+                target="_blank"
+                variant="contained"
+              >
+                Visit
+              </Button>
+              <Button variant="outlined" onClick={() => setOpenDesModal(false)}>
+                Close
+              </Button>
+            </Stack>
+          </Stack>
         </Box>
-      </CssBaseline>
+      </Modal>
+
+      {/* FOOTER */}
+      <Divider />
+      <Container maxWidth="lg" sx={{ py: 6 }}>
+        <Stack alignItems="center" gap={2}>
+          <Stack direction="row" gap={1.5}>
+            <IconButton
+              component={MUILink}
+              href="https://github.com/lc4490"
+              target="_blank"
+              color="inherit"
+              sx={{ border: 1, borderColor: "divider" }}
+            >
+              <GitHubIcon />
+            </IconButton>
+            <IconButton
+              component={MUILink}
+              href="https://www.linkedin.com/in/leo-chao-0334602a6/"
+              target="_blank"
+              color="inherit"
+              sx={{ border: 1, borderColor: "divider" }}
+            >
+              <LinkedInIcon />
+            </IconButton>
+            <IconButton
+              component={MUILink}
+              href="mailto:lc4490@nyu.edu"
+              color="inherit"
+              sx={{ border: 1, borderColor: "divider" }}
+            >
+              <EmailIcon />
+            </IconButton>
+          </Stack>
+          <Typography variant="body2" color="text.secondary" align="center">
+            © {new Date().getFullYear()} Leo Chao · v2.0 ·{" "}
+            <MUILink
+              href="https://lc4490.github.io/home/"
+              color="inherit"
+              underline="always"
+            >
+              Previous website
+            </MUILink>
+          </Typography>
+        </Stack>
+      </Container>
     </ThemeProvider>
   );
 }
