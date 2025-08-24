@@ -555,7 +555,12 @@ export default function Home() {
             justifyContent={isMobile ? "center" : "flex-start"}
           >
             <Box
-              sx={{ position: "relative", width: "75%", aspectRatio: "1/1" }}
+              sx={{
+                position: "relative",
+                width: "75%",
+                aspectRatio: "1/1",
+                mt: 5,
+              }}
             >
               <Image
                 src="/pic00.jpg"
@@ -711,7 +716,7 @@ export default function Home() {
           direction="row"
           alignItems="center"
           gap={1.5}
-          sx={{ mb: 2, mt: 2 }}
+          sx={{ mb: 2, mt: isMobile ? 5 : 2 }}
         >
           <FilterAltIcon />
           <Typography variant="h4">Skills</Typography>
@@ -746,7 +751,7 @@ export default function Home() {
           variant="h4"
           sx={{
             mb: 2,
-            mt: 2,
+            mt: isMobile ? 5 : 2,
             // fontSize: { xs: "clamp(22px, 6vw, 28px)", sm: 32 },
           }}
         >
