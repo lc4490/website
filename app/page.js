@@ -17,6 +17,7 @@ import {
   CardMedia,
   CardContent,
   Container,
+  CircularProgress,
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 
@@ -341,6 +342,9 @@ export default function Home() {
         projects.filter((p) => newSelected.some((s) => p.skills.includes(s)))
       );
   };
+  if (!theme) {
+    <CircularProgress />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -559,7 +563,6 @@ export default function Home() {
                 position: "relative",
                 width: "75%",
                 aspectRatio: "1/1",
-                mt: 5,
               }}
             >
               <Image
