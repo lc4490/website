@@ -70,6 +70,14 @@ import Slider from "react-slick";
 // ---------- DATA ----------
 const projects = [
   {
+    name: "Leo's Reading List",
+    description:
+      "A tool to track the books I've read or want to read, as well as document my various thoughts along the way.",
+    skills: ["Next.js", "React", "JavaScript", "Node.js"],
+    image: "/leosreadinglist.png",
+    link: "https://leos-reading-list.vercel.app",
+  },
+  {
     name: "trainerGPT",
     description:
       "All‑in‑one trainer: AI plans, equipment detection via camera, exportable workout calendar, and pantry → recipe generation.",
