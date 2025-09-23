@@ -97,6 +97,14 @@ const projects = [
     link: "https://trainer-gpt.vercel.app",
   },
   {
+    name: "my_Pantry",
+    description:
+      "Pantry tracker with camera recognition and AI recipe generation.",
+    skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Node.js"],
+    image: "/mypantry.png",
+    link: "https://my-pantry-tracker.vercel.app",
+  },
+  {
     name: "Chatstarter",
     description:
       "Social app with friends, chat, voice/video calls, and AI moderation.",
@@ -152,14 +160,6 @@ const projects = [
     ],
     image: "/ai_trainer.png",
     link: "https://leonardochao-ai-trainer.vercel.app",
-  },
-  {
-    name: "my_Pantry",
-    description:
-      "Pantry tracker with camera recognition and AI recipe generation.",
-    skills: ["Next.js", "React", "Firebase", "OpenAI", "JavaScript", "Node.js"],
-    image: "/mypantry.png",
-    link: "https://leonardochao-my-pantry.vercel.app",
   },
   {
     name: "lineup_Tracker",
