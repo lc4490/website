@@ -74,7 +74,7 @@ const projects = [
     description:
       "A tool to track the books I've read or want to read, as well as document my various thoughts along the way.",
     skills: ["Next.js", "React", "JavaScript", "Node.js"],
-    image: "/leosreadinglist.png",
+    image: "/leos-reading-list.png",
     link: "https://leos-reading-list.vercel.app",
   },
   {
