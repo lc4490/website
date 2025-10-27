@@ -136,14 +136,14 @@ const projects = [
     image: "/jarvis.png",
     link: "https://leonardochao-jarvis.vercel.app",
   },
-  {
-    name: "CustomerChurnPrediction",
-    description:
-      "End‑to‑end churn prediction with multiple ML models deployed via Streamlit.",
-    skills: ["Python", "Streamlit", "Pandas", "Numpy", "Machine Learning"],
-    image: "/customerchurn.png",
-    link: "https://leochao-customer-churn-prediction.streamlit.app",
-  },
+  // {
+  //   name: "CustomerChurnPrediction",
+  //   description:
+  //     "End‑to‑end churn prediction with multiple ML models deployed via Streamlit.",
+  //   skills: ["Python", "Streamlit", "Pandas", "Numpy", "Machine Learning"],
+  //   image: "/customerchurn.png",
+  //   link: "https://leochao-customer-churn-prediction.streamlit.app",
+  // },
   {
     name: "AI_Trainer",
     description:
