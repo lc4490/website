@@ -233,6 +233,7 @@ const skills = [
   { name: "React", icon: faReact },
   { name: "Firebase", icon: faFireFlameCurved },
   { name: "OpenAI", icon: faBrain },
+  { name: "Typescript" },
   { name: "Postman" },
   { name: "RAG" },
   { name: "Node.js" },
