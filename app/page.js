@@ -308,10 +308,11 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
   useEffect(() => setDarkMode(prefersDarkMode), [prefersDarkMode]);
 
-  const theme = useMemo(
-    () => getTheme(darkMode ? "dark" : "light"),
-    [darkMode]
-  );
+  // const theme = useMemo(
+  //   () => getTheme(darkMode ? "dark" : "light"),
+  //   [darkMode]
+  // );
+  const theme = getTheme("dark");
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -421,14 +422,14 @@ export default function Home() {
             <Stack direction="row" gap={1} alignItems="center">
               {!isMobile && (
                 <Stack direction="row" gap={1}>
-                  <IconButton
+                  {/* <IconButton
                     onClick={() => setDarkMode((v) => !v)}
                     color="inherit"
                     aria-label="Toggle dark mode"
                     anchor={isMobile ? "left" : "right"}
                   >
                     {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-                  </IconButton>
+                  </IconButton> */}
                   <IconButton
                     component={MUILink}
                     href="https://github.com/lc4490"
@@ -457,14 +458,14 @@ export default function Home() {
 
               {isMobile && (
                 <Box width="90vw" display="flex" justifyContent="space-between">
-                  <IconButton
+                  {/* <IconButton
                     onClick={() => setDarkMode((v) => !v)}
                     color="inherit"
                     aria-label="Toggle dark mode"
                     anchor={isMobile ? "left" : "right"}
                   >
                     {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-                  </IconButton>
+                  </IconButton> */}
                   <IconButton
                     onClick={() => setDrawerOpen(true)}
                     color="inherit"
