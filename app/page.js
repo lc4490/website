@@ -67,7 +67,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-// ---------- DATA ----------
+// projects
 const projects = [
   {
     name: "Leo's Reading List",
@@ -227,6 +227,7 @@ const projects = [
   },
 ];
 
+// skills
 const skills = [
   { name: "Python", icon: faPython },
   { name: "Next.js", icon: faNodeJs },
@@ -253,7 +254,7 @@ const skills = [
   { name: "Machine Learning" },
 ];
 
-// ---------- THEME ----------
+// theme
 const getTheme = (mode) =>
   createTheme({
     palette: {
@@ -302,7 +303,6 @@ const ACCENTS = [
   "#96ddff",
 ];
 
-// ---------- COMPONENT ----------
 export default function Home() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
@@ -349,7 +349,7 @@ export default function Home() {
     if (newSelected.length === 0) setFilteredProjects(projects);
     else
       setFilteredProjects(
-        projects.filter((p) => newSelected.some((s) => p.skills.includes(s)))
+        projects.filter((p) => newSelected.some((s) => p.skills.includes(s))),
       );
   };
   if (!theme) {
@@ -407,7 +407,7 @@ export default function Home() {
                         "&:hover": {
                           backgroundColor: alpha(
                             theme.palette.text.primary,
-                            0.08
+                            0.08,
                           ),
                         },
                       }}
@@ -785,7 +785,7 @@ export default function Home() {
                   //   )}, ${alpha(t.palette.background.paper, 0.95)})`,
                   background: `linear-gradient(90deg, ${alpha(
                     ACCENTS[index % ACCENTS.length],
-                    0.35
+                    0.35,
                   )}, transparent 35%)`,
                   boxShadow: 2,
                   transition: "transform .25s ease, box-shadow .25s ease",
