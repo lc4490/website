@@ -17,9 +17,8 @@ import {
   CardMedia,
   CardContent,
   Container,
-  CircularProgress,
 } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 
 // icon imports
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -29,8 +28,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import InfoIcon from "@mui/icons-material/Info";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
 
 // font awesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -230,14 +227,14 @@ const projects = [
 // skills
 const skills = [
   { name: "Python", icon: faPython },
-  { name: "Next.js", icon: faNodeJs },
+  { name: "Next.js" },
   { name: "React", icon: faReact },
   { name: "Firebase", icon: faFireFlameCurved },
   { name: "OpenAI", icon: faBrain },
   { name: "Typescript" },
   { name: "Postman" },
   { name: "RAG" },
-  { name: "Node.js" },
+  { name: "Node.js", icon: faNodeJs },
   { name: "Clerk" },
   { name: "Stripe" },
   { name: "HTML", icon: faHtml5 },
@@ -304,14 +301,6 @@ const ACCENTS = [
 ];
 
 export default function Home() {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [darkMode, setDarkMode] = useState(prefersDarkMode);
-  useEffect(() => setDarkMode(prefersDarkMode), [prefersDarkMode]);
-
-  // const theme = useMemo(
-  //   () => getTheme(darkMode ? "dark" : "light"),
-  //   [darkMode]
-  // );
   const theme = getTheme("dark");
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -352,10 +341,6 @@ export default function Home() {
         projects.filter((p) => newSelected.some((s) => p.skills.includes(s))),
       );
   };
-  if (!theme) {
-    <CircularProgress />;
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -393,13 +378,18 @@ export default function Home() {
                     { href: "#bio", label: "Bio" },
                     { href: "#skills", label: "Skills" },
                     { href: "#projects", label: "Projects" },
-                    { href: "/Resume.pdf", label: "Resume", external: true },
+                    {
+                      href: "/Leo_Chao_Resume.pdf",
+                      label: "Resume",
+                      external: true,
+                    },
                   ].map((item) => (
                     <Button
                       key={item.label}
                       component={NextLink}
                       href={item.href}
                       target={item.external ? "_blank" : undefined}
+                      rel={item.external ? "noopener noreferrer" : undefined}
                       color="inherit"
                       sx={{
                         borderRadius: 2,
@@ -434,6 +424,7 @@ export default function Home() {
                     component={MUILink}
                     href="https://github.com/lc4490"
                     target="_blank"
+                    rel="noopener noreferrer"
                     color="inherit"
                   >
                     <GitHubIcon />
@@ -442,6 +433,7 @@ export default function Home() {
                     component={MUILink}
                     href="https://www.linkedin.com/in/leo-chao-0334602a6/"
                     target="_blank"
+                    rel="noopener noreferrer"
                     color="inherit"
                   >
                     <LinkedInIcon />
@@ -511,13 +503,14 @@ export default function Home() {
             { href: "#bio", label: "Bio" },
             { href: "#skills", label: "Skills" },
             { href: "#projects", label: "Projects" },
-            { href: "/Resume.pdf", label: "Resume", external: true },
+            { href: "/Leo_Chao_Resume.pdf", label: "Resume", external: true },
           ].map((item) => (
             <Button
               key={item.label}
               component={NextLink}
               href={item.href}
               target={item.external ? "_blank" : undefined}
+              rel={item.external ? "noopener noreferrer" : undefined}
               onClick={() => setDrawerOpen(false)}
               sx={{
                 justifyContent: "flex-start",
@@ -535,6 +528,7 @@ export default function Home() {
               component={MUILink}
               href="https://github.com/lc4490"
               target="_blank"
+              rel="noopener noreferrer"
               color="inherit"
             >
               <GitHubIcon />
@@ -543,6 +537,7 @@ export default function Home() {
               component={MUILink}
               href="https://www.linkedin.com/in/leo-chao-0334602a6/"
               target="_blank"
+              rel="noopener noreferrer"
               color="inherit"
             >
               <LinkedInIcon />
@@ -600,8 +595,9 @@ export default function Home() {
               <Stack direction="row" gap={1}>
                 <Button
                   component={NextLink}
-                  href="/Resume.pdf"
+                  href="/Leo_Chao_Resume.pdf"
                   target="_blank"
+                  rel="noopener noreferrer"
                   variant="contained"
                 >
                   View Resume
@@ -640,7 +636,7 @@ export default function Home() {
             <Slider {...settings}>
               {projects.slice(0, 5).map((project, index) => (
                 <Box
-                  key={index}
+                  key={project.name}
                   sx={{
                     position: "relative",
                     height: { xs: 220, sm: 360, md: 460 },
@@ -698,6 +694,7 @@ export default function Home() {
                           component={MUILink}
                           href={project.link}
                           target="_blank"
+                          rel="noopener noreferrer"
                           variant="contained"
                           color="primary"
                         >
@@ -772,7 +769,7 @@ export default function Home() {
         </Typography>
         <Grid container spacing={{ xs: 1.5, sm: 2.5 }}>
           {filteredProjects.map((p, index) => (
-            <Grid key={p.name + index} item xs={12} sm={6} md={4}>
+            <Grid key={p.name} item xs={12} sm={6} md={4}>
               <Card
                 sx={{
                   height: "100%",
@@ -796,6 +793,7 @@ export default function Home() {
                   component={MUILink}
                   href={p.link}
                   target="_blank"
+                  rel="noopener noreferrer"
                   sx={{ borderRadius: 2 }}
                 >
                   <CardMedia
@@ -836,6 +834,7 @@ export default function Home() {
                       component={MUILink}
                       href={p.link}
                       target="_blank"
+                      rel="noopener noreferrer"
                       size="small"
                       variant="contained"
                     >
@@ -907,6 +906,7 @@ export default function Home() {
                 component={MUILink}
                 href={projects[selectedProject].link}
                 target="_blank"
+                rel="noopener noreferrer"
                 variant="contained"
               >
                 Visit
@@ -928,6 +928,7 @@ export default function Home() {
               component={MUILink}
               href="https://github.com/lc4490"
               target="_blank"
+              rel="noopener noreferrer"
               color="inherit"
               sx={{ border: 1, borderColor: "divider" }}
             >
@@ -937,6 +938,7 @@ export default function Home() {
               component={MUILink}
               href="https://www.linkedin.com/in/leo-chao-0334602a6/"
               target="_blank"
+              rel="noopener noreferrer"
               color="inherit"
               sx={{ border: 1, borderColor: "divider" }}
             >
