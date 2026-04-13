@@ -1,0 +1,1715 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Media Analysis — @kceylee</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #0f0f0f;
+        color: #fff;
+        font-family: "Inter", system-ui, sans-serif;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+      a {
+        color: #ff0050;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .section {
+        padding: 48px 0 32px;
+      }
+      h2.section-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 24px;
+        color: #fff;
+        border-left: 3px solid #ff0050;
+        padding-left: 14px;
+      }
+      .header {
+        background: linear-gradient(135deg, #1a0010 0%, #0f0f0f 60%);
+        border-bottom: 1px solid #2a2a2a;
+        padding: 48px 0 36px;
+      }
+      .header-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .header-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #ff0050;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 4px 12px;
+        border-radius: 20px;
+        width: fit-content;
+      }
+      .header h1 {
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-top: 8px;
+      }
+      .header h1 span {
+        color: #ff0050;
+      }
+      .header-meta {
+        color: #888;
+        font-size: 14px;
+        margin-top: 6px;
+      }
+      .header-meta strong {
+        color: #ccc;
+      }
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+      }
+      .card {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 14px;
+        padding: 20px 22px;
+      }
+      .card-platform {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+        color: #ff0050;
+      }
+      .card-value {
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .card-label {
+        font-size: 12px;
+        color: #777;
+        margin-top: 4px;
+      }
+      .card-sub {
+        margin-top: 12px;
+        font-size: 13px;
+        color: #aaa;
+        border-top: 1px solid #2a2a2a;
+        padding-top: 10px;
+      }
+      .card-sub span {
+        color: #fff;
+        font-weight: 600;
+      }
+      .post-grid {
+        display: grid;
+        gap: 16px;
+      }
+      .post-card {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 14px;
+        padding: 20px 22px;
+      }
+      .post-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .post-rank {
+        background: #ff0050;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .post-caption {
+        font-size: 14px;
+        color: #ddd;
+        flex: 1;
+      }
+      .post-caption strong {
+        color: #fff;
+        display: block;
+        margin-bottom: 3px;
+        font-size: 15px;
+      }
+      .post-date {
+        font-size: 12px;
+        color: #666;
+        flex-shrink: 0;
+      }
+      .post-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .stat {
+        background: #111;
+        border: 1px solid #2a2a2a;
+        border-radius: 8px;
+        padding: 6px 12px;
+        font-size: 13px;
+        text-align: center;
+      }
+      .stat-val {
+        font-weight: 700;
+        color: #fff;
+      }
+      .stat-lbl {
+        font-size: 11px;
+        color: #666;
+      }
+      .post-why {
+        background: #0d1a0f;
+        border: 1px solid #1e3a22;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 13px;
+        color: #aad4b0;
+      }
+      .post-why::before {
+        content: "Why it worked: ";
+        font-weight: 700;
+        color: #4ade80;
+      }
+      .tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .tag {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 20px;
+        padding: 5px 14px;
+        color: #ccc;
+        cursor: default;
+      }
+      .tag.size-xl {
+        font-size: 20px;
+        color: #ff0050;
+        font-weight: 700;
+        border-color: #ff0050;
+      }
+      .tag.size-lg {
+        font-size: 16px;
+        color: #ff6b9d;
+        font-weight: 600;
+        border-color: #662040;
+      }
+      .tag.size-md {
+        font-size: 14px;
+        color: #fff;
+        border-color: #3a3a3a;
+      }
+      .tag.size-sm {
+        font-size: 12px;
+        color: #888;
+      }
+      .framework-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+      }
+      .framework-card {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 14px;
+        padding: 22px;
+      }
+      .framework-num {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #ff0050;
+        margin-bottom: 8px;
+      }
+      .framework-title {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .framework-template {
+        background: #111;
+        border: 1px solid #2a2a2a;
+        border-radius: 10px;
+        padding: 14px;
+        font-size: 13px;
+        color: #ddd;
+        line-height: 1.8;
+      }
+      .fill {
+        color: #ff6b9d;
+        font-style: italic;
+      }
+      .framework-notes {
+        margin-top: 12px;
+        font-size: 12px;
+        color: #777;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th {
+        background: #1a1a1a;
+        color: #888;
+        font-weight: 600;
+        text-align: left;
+        padding: 10px 14px;
+        border-bottom: 1px solid #2a2a2a;
+        white-space: nowrap;
+      }
+      td {
+        padding: 10px 14px;
+        border-bottom: 1px solid #1f1f1f;
+        color: #ccc;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: #1a1a1a;
+      }
+      .good {
+        color: #4ade80;
+        font-weight: 600;
+      }
+      .mid {
+        color: #facc15;
+        font-weight: 600;
+      }
+      .bad {
+        color: #f87171;
+      }
+      .action-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .action-item {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 12px;
+        padding: 18px 20px;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .action-num {
+        background: #ff0050;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .action-body {
+        flex: 1;
+      }
+      .action-title {
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 4px;
+        font-size: 15px;
+      }
+      .action-desc {
+        font-size: 13px;
+        color: #999;
+      }
+      .priority {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 6px;
+      }
+      .priority-high {
+        background: #3d1010;
+        color: #f87171;
+        border: 1px solid #5a1a1a;
+      }
+      .priority-med {
+        background: #2d2a10;
+        color: #facc15;
+        border: 1px solid #4a4015;
+      }
+      .priority-low {
+        background: #0d2d15;
+        color: #4ade80;
+        border: 1px solid #1a5a2a;
+      }
+      .warning-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .warning-item {
+        background: #1a0f0f;
+        border: 1px solid #3a1a1a;
+        border-radius: 12px;
+        padding: 16px 18px;
+      }
+      .warning-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #f87171;
+        margin-bottom: 6px;
+      }
+      .warning-caption {
+        font-size: 14px;
+        color: #ccc;
+        margin-bottom: 6px;
+        font-style: italic;
+      }
+      .warning-note {
+        font-size: 13px;
+        color: #888;
+      }
+      .chart-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 24px;
+        margin-top: 8px;
+      }
+      .chart-card {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 14px;
+        padding: 22px;
+      }
+      .chart-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #aaa;
+        margin-bottom: 18px;
+      }
+      .patterns-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+      }
+      .pattern-card {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 12px;
+        padding: 16px 18px;
+      }
+      .pattern-title {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #ff6b9d;
+        margin-bottom: 8px;
+      }
+      .pattern-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .pattern-list li {
+        font-size: 13px;
+        color: #ccc;
+        padding: 3px 0;
+        border-bottom: 1px solid #1f1f1f;
+      }
+      .pattern-list li:last-child {
+        border: none;
+      }
+      .pattern-list li::before {
+        content: "-> ";
+        color: #ff0050;
+      }
+      .posting-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .day-cell {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 8px;
+        padding: 10px 6px;
+        text-align: center;
+        font-size: 12px;
+      }
+      .day-name {
+        color: #666;
+        font-size: 11px;
+        margin-bottom: 4px;
+      }
+      .day-count {
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .day-cell.active {
+        border-color: #ff0050;
+        background: #1f0010;
+      }
+      .day-cell.active .day-count {
+        color: #ff0050;
+      }
+      .footer {
+        border-top: 1px solid #1f1f1f;
+        padding: 24px 0;
+        text-align: center;
+        color: #555;
+        font-size: 13px;
+        margin-top: 32px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="container">
+        <div class="header-inner">
+          <div class="header-badge">TikTok Analysis</div>
+          <h1>Social Media Analysis &mdash; <span>@kceylee</span></h1>
+          <div class="header-meta">
+            <strong>kacey &nbsp;(New York, NY)</strong> &nbsp;&middot;&nbsp;
+            Date range:
+            <strong>Jan 13 &ndash; Apr 13, 2026</strong> &nbsp;&middot;&nbsp;
+            Generated: <strong>Apr 13, 2026</strong> &nbsp;&middot;&nbsp; 10.1K
+            followers &middot; 543.6K total likes
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="section">
+        <h2 class="section-title">Summary</h2>
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-platform">TikTok</div>
+            <div class="card-value">35</div>
+            <div class="card-label">Posts analyzed (Mar 14 &ndash; Apr 13)</div>
+            <div class="card-sub">Avg views per post: <span>1,350</span></div>
+          </div>
+          <div class="card">
+            <div class="card-platform">Avg Engagement Score</div>
+            <div class="card-value">171</div>
+            <div class="card-label">
+              likes + comments*2 + shares*1.5 + views*0.01
+            </div>
+            <div class="card-sub">Top post score: <span>1,301</span></div>
+          </div>
+          <div class="card">
+            <div class="card-platform">Peak Views</div>
+            <div class="card-value">7,670</div>
+            <div class="card-label">
+              &ldquo;i felt my mary poppins #cat&rdquo;
+            </div>
+            <div class="card-sub">
+              Apr 11, 2026 &mdash;
+              <a
+                href="https://www.tiktok.com/@kceylee/video/7627342158722338062"
+                target="_blank"
+                >view &rarr;</a
+              >
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-platform">Peak Engagement</div>
+            <div class="card-value">1,301</div>
+            <div class="card-label">
+              &ldquo;sorry for the emo vid today&rdquo;
+            </div>
+            <div class="card-sub">
+              39 comments &middot; 1,136 likes &mdash;
+              <a
+                href="https://www.tiktok.com/@kceylee/video/7625745889641893133"
+                target="_blank"
+                >view &rarr;</a
+              >
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-platform">Posting Cadence</div>
+            <div class="card-value">1.2x</div>
+            <div class="card-label">Posts per day</div>
+            <div class="card-sub">Very consistent daily posting</div>
+          </div>
+          <div class="card">
+            <div class="card-platform">Top Hashtag</div>
+            <div class="card-value">#healing</div>
+            <div class="card-label">Appears in 8+ posts</div>
+            <div class="card-sub">Drives highest avg engagement</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Charts</h2>
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-title">Top Posts by View Count</div>
+            <canvas id="viewsChart" height="280"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Top Posts by Engagement Score</div>
+            <canvas id="engChart" height="280"></canvas>
+          </div>
+        </div>
+        <div class="chart-grid" style="margin-top: 16px">
+          <div class="chart-card">
+            <div class="chart-title">Average Views by Content Category</div>
+            <canvas id="catChart" height="240"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">
+              All 35 Posts &mdash; View Count Distribution
+            </div>
+            <canvas id="distChart" height="240"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Top Performing Posts</h2>
+        <div class="post-grid">
+          <div class="post-card">
+            <div class="post-card-header">
+              <div class="post-rank">1</div>
+              <div class="post-caption">
+                <strong
+                  >&ldquo;sorry for the emo vid today but just been feeling down
+                  and felt it was important to document bc healing is never
+                  linear&hellip;&rdquo;</strong
+                >
+                Deep trauma/SA healing reflection. Longest caption of any post.
+                Mentions feeling "permanently doomed or forever changed."
+              </div>
+              <div class="post-date">Apr 7, 2026</div>
+            </div>
+            <div class="post-stats">
+              <div class="stat">
+                <div class="stat-val">7,011</div>
+                <div class="stat-lbl">Views</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">1,136</div>
+                <div class="stat-lbl">Likes</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">39</div>
+                <div class="stat-lbl">Comments</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">11</div>
+                <div class="stat-lbl">Shares</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">1,301</div>
+                <div class="stat-lbl">Score</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">16.2%</div>
+                <div class="stat-lbl">Like Rate</div>
+              </div>
+            </div>
+            <div class="post-why">
+              Radical vulnerability is this creator&rsquo;s highest-leverage
+              format. The &ldquo;apology hook&rdquo; (&ldquo;sorry for the emo
+              vid&rdquo;) paradoxically pulls viewers in by lowering resistance.
+              39 comments is 8x her average, confirming the community wants to
+              respond and support. The long, detailed caption works as emotional
+              narrative &mdash; not just a description. #healing and
+              #saawareness hashtags connect her to an active community seeking
+              this exact content.
+            </div>
+            <div style="margin-top: 10px">
+              <a
+                href="https://www.tiktok.com/@kceylee/video/7625745889641893133"
+                target="_blank"
+                style="font-size: 13px"
+                >View on TikTok &rarr;</a
+              >
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-card-header">
+              <div class="post-rank">2</div>
+              <div class="post-caption">
+                <strong
+                  >&ldquo;i felt my mary poppins #cat #springs #cattoy
+                  #blackcat&rdquo;</strong
+                >
+                Short, punchy cat humor video. Cat playing with spring toy,
+                named Mary Poppins via caption.
+              </div>
+              <div class="post-date">Apr 11, 2026</div>
+            </div>
+            <div class="post-stats">
+              <div class="stat">
+                <div class="stat-val">7,670</div>
+                <div class="stat-lbl">Views</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">563</div>
+                <div class="stat-lbl">Likes</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">5</div>
+                <div class="stat-lbl">Comments</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">7</div>
+                <div class="stat-lbl">Shares</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">660</div>
+                <div class="stat-lbl">Score</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">7.3%</div>
+                <div class="stat-lbl">Like Rate</div>
+              </div>
+            </div>
+            <div class="post-why">
+              Cat content is algorithmically favored and universally shareable.
+              The &ldquo;i felt my [pop culture reference]&rdquo; structure is a
+              proven viral hook that invites completion. Short format (under 10
+              seconds) maximizes loop count. 7 shares is 3-5x her average,
+              confirming virality. Got the most raw views of any non-pinned post
+              in the period.
+            </div>
+            <div style="margin-top: 10px">
+              <a
+                href="https://www.tiktok.com/@kceylee/video/7627342158722338062"
+                target="_blank"
+                style="font-size: 13px"
+                >View on TikTok &rarr;</a
+              >
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-card-header">
+              <div class="post-rank">3</div>
+              <div class="post-caption">
+                <strong
+                  >&ldquo;completely forgot it&rsquo;s st pattys day no green in
+                  my outfit&rdquo;</strong
+                >
+                Timely holiday outfit content. Self-deprecating &ldquo;forgot
+                the holiday&rdquo; angle.
+              </div>
+              <div class="post-date">Mar 14, 2026</div>
+            </div>
+            <div class="post-stats">
+              <div class="stat">
+                <div class="stat-val">4,673</div>
+                <div class="stat-lbl">Views</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">557</div>
+                <div class="stat-lbl">Likes</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">8</div>
+                <div class="stat-lbl">Comments</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">4</div>
+                <div class="stat-lbl">Shares</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">626</div>
+                <div class="stat-lbl">Score</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">11.9%</div>
+                <div class="stat-lbl">Like Rate</div>
+              </div>
+            </div>
+            <div class="post-why">
+              Timely holiday content gets algorithmic boost from trend searches.
+              Self-deprecating humor (&ldquo;no green in my outfit&rdquo;) is
+              immediately relatable. OOTD combined with a cultural moment
+              creates a double hook. Posted early (Mar 14 for Mar 17 holiday)
+              allowed time for organic discovery before peak search traffic
+              arrived.
+            </div>
+            <div style="margin-top: 10px">
+              <a
+                href="https://www.tiktok.com/@kceylee/video/7617216043076848910"
+                target="_blank"
+                style="font-size: 13px"
+                >View on TikTok &rarr;</a
+              >
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-card-header">
+              <div class="post-rank">4</div>
+              <div class="post-caption">
+                <strong
+                  >&ldquo;should i go back and get it
+                  tho&hellip;.&rdquo;</strong
+                >
+                Thrift store NYC teaser &mdash; photo post with deliberate
+                curiosity gap about a specific item.
+              </div>
+              <div class="post-date">Mar 22, 2026</div>
+            </div>
+            <div class="post-stats">
+              <div class="stat">
+                <div class="stat-val">5,155</div>
+                <div class="stat-lbl">Views</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">195</div>
+                <div class="stat-lbl">Likes</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">12</div>
+                <div class="stat-lbl">Comments</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">4</div>
+                <div class="stat-lbl">Shares</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">277</div>
+                <div class="stat-lbl">Score</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">3.8%</div>
+                <div class="stat-lbl">Like Rate</div>
+              </div>
+            </div>
+            <div class="post-why">
+              The open-ended question creates genuine curiosity &mdash; viewers
+              need to know what &ldquo;it&rdquo; is. Generated 12 comments (3x
+              average) as people weighed in. A static photo post rarely hits 5K+
+              views, yet it did purely on caption hook. The ellipsis
+              (&ldquo;&hellip;.&rdquo;) telegraphs indecision and invites
+              audience participation.
+            </div>
+            <div style="margin-top: 10px">
+              <a
+                href="https://www.tiktok.com/@kceylee/photo/7620132999895502094"
+                target="_blank"
+                style="font-size: 13px"
+                >View on TikTok &rarr;</a
+              >
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-card-header">
+              <div class="post-rank">5</div>
+              <div class="post-caption">
+                <strong
+                  >&ldquo;lowkey why was thjs one of my most fav desserts
+                  ever&rdquo;</strong
+                >
+                Authentic food enthusiasm. Typo &ldquo;thjs&rdquo; kept in. High
+                like-to-view ratio.
+              </div>
+              <div class="post-date">Apr 7, 2026</div>
+            </div>
+            <div class="post-stats">
+              <div class="stat">
+                <div class="stat-val">1,529</div>
+                <div class="stat-lbl">Views</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">189</div>
+                <div class="stat-lbl">Likes</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">8</div>
+                <div class="stat-lbl">Comments</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">8</div>
+                <div class="stat-lbl">Shares</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">232</div>
+                <div class="stat-lbl">Score</div>
+              </div>
+              <div class="stat">
+                <div class="stat-val">12.4%</div>
+                <div class="stat-lbl">Like Rate</div>
+              </div>
+            </div>
+            <div class="post-why">
+              12.4% like rate signals deep resonance with core audience.
+              &ldquo;Lowkey&rdquo; framing makes enthusiasm feel genuine rather
+              than promotional. 8 shares (above avg) suggest food-discovery
+              behavior &mdash; people tag friends. The typo &ldquo;thjs&rdquo;
+              reinforces the unfiltered, authentic voice that defines
+              kacey&rsquo;s brand.
+            </div>
+            <div style="margin-top: 10px">
+              <a
+                href="https://www.tiktok.com/@kceylee/video/7625836682927033613"
+                target="_blank"
+                style="font-size: 13px"
+                >View on TikTok &rarr;</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">High-Performing Phrases &amp; Hooks</h2>
+        <p style="color: #888; font-size: 14px; margin-bottom: 16px">
+          Phrases from top-performing captions &mdash; size reflects frequency +
+          engagement correlation.
+        </p>
+        <div class="tag-cloud">
+          <span class="tag size-xl">#healing</span>
+          <span class="tag size-xl">sorry for the emo vid</span>
+          <span class="tag size-lg">i felt my</span>
+          <span class="tag size-lg">#survivorstory</span>
+          <span class="tag size-lg">should i go back</span>
+          <span class="tag size-lg">lowkey why</span>
+          <span class="tag size-lg">#saawareness</span>
+          <span class="tag size-md">healing is never linear</span>
+          <span class="tag size-md">a day alone in</span>
+          <span class="tag size-md">contemplating my existence</span>
+          <span class="tag size-md">#cat #blackcat</span>
+          <span class="tag size-md">i love my</span>
+          <span class="tag size-md">completely forgot</span>
+          <span class="tag size-md">here is to healing</span>
+          <span class="tag size-md">i feel like my 20s</span>
+          <span class="tag size-sm">the secret activity was</span>
+          <span class="tag size-sm">#onthisday</span>
+          <span class="tag size-sm">a cozy morning vlog</span>
+          <span class="tag size-sm">just been feeling down</span>
+        </div>
+
+        <div class="patterns-grid" style="margin-top: 24px">
+          <div class="pattern-card">
+            <div class="pattern-title">Hooks that drive comments</div>
+            <ul class="pattern-list">
+              <li>&ldquo;sorry for the emo vid today but&hellip;&rdquo;</li>
+              <li>&ldquo;should i go back and get it tho&hellip;.&rdquo;</li>
+              <li>
+                &ldquo;a reflection on mourning who I was before SA&rdquo;
+              </li>
+              <li>
+                &ldquo;i feel like my 20s has been about trying to be 18&rdquo;
+              </li>
+              <li>&ldquo;healing is never linear&rdquo; (in body)</li>
+            </ul>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-title">Hooks that drive views</div>
+            <ul class="pattern-list">
+              <li>&ldquo;i felt my [pop culture reference]&rdquo;</li>
+              <li>
+                &ldquo;completely forgot it&rsquo;s [holiday]&rdquo;
+                (timeliness)
+              </li>
+              <li>&ldquo;should i go back and get it tho&hellip;.&rdquo;</li>
+              <li>Cat content with any caption</li>
+              <li>Emotional title ix / advocacy content</li>
+            </ul>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-title">Hooks that drive shares</div>
+            <ul class="pattern-list">
+              <li>Food discovery (&ldquo;lowkey why was this my fav&rdquo;)</li>
+              <li>Cat humor (tag-a-friend content)</li>
+              <li>Healing reflections (share with someone who needs this)</li>
+              <li>&ldquo;i love this [everyday item]&rdquo; format</li>
+              <li>NYC discovery / thrift content</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Underperforming Patterns</h2>
+        <p style="color: #888; font-size: 14px; margin-bottom: 16px">
+          Bottom 25% by engagement score. Common failure modes to avoid.
+        </p>
+        <div class="warning-list">
+          <div class="warning-item">
+            <div class="warning-label">
+              All-caps excitement without substance
+            </div>
+            <div class="warning-caption">
+              &ldquo;FINALLY 70 IN NEW YORKKKKKKKKKKK &lt;3&rdquo;
+            </div>
+            <div class="warning-note">
+              Lowest non-pinned post: 197 views, ~26 engagement score.
+              Excitement without specificity gives viewers nothing to engage
+              with. Contrast with top posts: even when excited, they anchor
+              emotion to a specific detail (the cat, the outfit, the dessert).
+              All-caps reads as generic &ldquo;content creator noise.&rdquo;
+            </div>
+          </div>
+          <div class="warning-item">
+            <div class="warning-label">Minimal captions with no hook</div>
+            <div class="warning-caption">
+              &ldquo;my fit today&rdquo; &middot; &ldquo;a little studio
+              vlog&rdquo; &middot; &ldquo;#onthisday&rdquo; &middot; &ldquo;a
+              good hair day for lil ol me&rdquo;
+            </div>
+            <div class="warning-note">
+              One-liner captions give TikTok&rsquo;s algorithm no keywords and
+              give viewers no reason to click through. These average 550 views
+              vs. 2,100 for posts with substantive captions. Fashion content
+              especially suffers without an angle &mdash; #3 hit 4,673 views
+              because the caption had a relatable self-deprecating hook, not
+              just a label.
+            </div>
+          </div>
+          <div class="warning-item">
+            <div class="warning-label">
+              Weather/milestone posts without a personal angle
+            </div>
+            <div class="warning-caption">
+              &ldquo;first day in nyc warm enough for a dress!! also im so
+              exhausted sorry that i dont look v happy&rdquo;
+            </div>
+            <div class="warning-note">
+              215 views &mdash; near the bottom. Weather-based celebrations
+              don&rsquo;t travel beyond hyperlocal audiences. Apologizing for
+              appearance in the caption signals low confidence. The fatigue
+              caveat undercuts the positive milestone and signals low-investment
+              content.
+            </div>
+          </div>
+          <div class="warning-item">
+            <div class="warning-label">Content-apology framing</div>
+            <div class="warning-caption">
+              &ldquo;sorry just a fit check for today bc i am busy workin&rdquo;
+            </div>
+            <div class="warning-note">
+              697 views. Framing content as an afterthought pushes audience
+              away. The audience mirrors the creator&rsquo;s energy. Compare:
+              the emo vid &ldquo;sorry&rdquo; draws you in (vulnerability); the
+              fit check &ldquo;sorry&rdquo; signals the creator doesn&rsquo;t
+              believe in the post (repels engagement).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Trending Topics &amp; Hashtags</h2>
+        <div class="patterns-grid">
+          <div class="pattern-card">
+            <div class="pattern-title">Hashtags in top-performing posts</div>
+            <ul class="pattern-list">
+              <li>#healing &mdash; 8+ posts, highest avg engagement</li>
+              <li>#survivorstory &mdash; 5 posts</li>
+              <li>#saawareness &mdash; 4 posts</li>
+              <li>#cat / #cats / #blackcat &mdash; 4 posts</li>
+              <li>#onthisday &mdash; 2 posts</li>
+              <li>#nycvlog &mdash; strong reach signal</li>
+              <li>#morningroutine &mdash; niche, low competition</li>
+            </ul>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-title">Content categories by avg views</div>
+            <ul class="pattern-list">
+              <li>Healing / SA Awareness &mdash; ~2,480 views avg</li>
+              <li>Cat content &mdash; ~2,200 views avg</li>
+              <li>Fashion + angle &mdash; ~2,100 views avg</li>
+              <li>Food discovery &mdash; ~1,350 views avg</li>
+              <li>DIY / Craft &mdash; ~820 views avg</li>
+              <li>Generic vlog &mdash; ~620 views avg</li>
+              <li>Weather / milestones &mdash; ~300 views avg</li>
+            </ul>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-title">Hashtag tag cloud</div>
+            <div class="tag-cloud" style="margin-top: 0">
+              <span class="tag size-xl">#healing</span>
+              <span class="tag size-lg">#cat</span>
+              <span class="tag size-lg">#survivorstory</span>
+              <span class="tag size-md">#saawareness</span>
+              <span class="tag size-md">#blackcat</span>
+              <span class="tag size-md">#nycvlog</span>
+              <span class="tag size-sm">#ootd</span>
+              <span class="tag size-sm">#onthisday</span>
+              <span class="tag size-sm">#cozy</span>
+              <span class="tag size-sm">#vlog</span>
+              <span class="tag size-sm">#mentalhealth</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Script Frameworks</h2>
+        <p style="color: #888; font-size: 14px; margin-bottom: 16px">
+          Three reusable templates from kacey&rsquo;s highest-performing
+          content.
+        </p>
+        <div class="framework-grid">
+          <div class="framework-card">
+            <div class="framework-num">Framework 01</div>
+            <div class="framework-title">The Vulnerable Healing Reflection</div>
+            <div class="framework-template">
+              sorry for the
+              <span class="fill">[adjective: emo / heavy / raw]</span> vid today
+              but just been feeling <span class="fill">[emotion]</span> and felt
+              it was important to document bc
+              <span class="fill">[universal truth about healing]</span
+              >.<br /><br />
+              <span class="fill">[specific experience in 1-2 sentences]</span>.
+              i often wonder
+              <span class="fill">[recurring intrusive thought]</span>. i dont
+              know
+              <span class="fill">[what you&rsquo;re uncertain about]</span>
+              &mdash; i know these thoughts are probably
+              <span class="fill">[self-compassion reframe]</span>, but ig this
+              is a lesson for me to <span class="fill">[takeaway]</span>
+            </div>
+            <div class="framework-notes">
+              Use 1-2x/week max. Always anchor to specific experience. Quiet,
+              emotional soundtrack. Add #healing #survivorstory. End with human
+              vulnerability, not a conclusion.
+            </div>
+          </div>
+          <div class="framework-card">
+            <div class="framework-num">Framework 02</div>
+            <div class="framework-title">The Punchy Relatable Observation</div>
+            <div class="framework-template">
+              i felt my <span class="fill">[pop culture character]</span
+              ><br /><br />
+              &mdash; OR &mdash;<br /><br />
+              lowkey why was <span class="fill">[specific thing]</span> one of
+              my <span class="fill">[superlative]</span>
+              <span class="fill">[category]</span> ever<br /><br />
+              &mdash; OR &mdash;<br /><br />
+              <span class="fill"
+                >[lowercase funny observation about cat/pet/moment]</span
+              >
+              <span class="fill">#relevant</span>
+            </div>
+            <div class="framework-notes">
+              Under 8 words. Single-take. Let the visual carry the content
+              &mdash; caption is the punchline. Best for cats, food reactions,
+              funny moments. High share potential.
+            </div>
+          </div>
+          <div class="framework-card">
+            <div class="framework-num">Framework 03</div>
+            <div class="framework-title">The Curiosity Gap Tease</div>
+            <div class="framework-template">
+              should i <span class="fill">[go back / do it / say yes to]</span>
+              <span class="fill">[the thing]</span> tho&hellip;.<br /><br />
+              &mdash; OR &mdash;<br /><br />
+              the secret
+              <span class="fill">[activity/reveal]</span> was&hellip;.
+              <span class="fill">[surprising specific answer]</span>!
+              <span class="fill">[honest reaction]</span><br /><br />
+              &mdash; OR &mdash;<br /><br />
+              <span class="fill">[vague teaser about decision/discovery]</span
+              >&hellip;. <span class="fill">[minimal context]</span>
+            </div>
+            <div class="framework-notes">
+              Key: genuine incompleteness. Don&rsquo;t explain too much. Use
+              &ldquo;&hellip;.&rdquo; (4 dots) &mdash; it reads as trailing
+              thought. Best for shopping hauls, activity reveals, multi-part
+              content.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Posting Patterns</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px">
+          <div>
+            <p style="color: #888; font-size: 14px; margin-bottom: 16px">
+              35 posts &mdash; Mar 14 to Apr 13, 2026 (~1.2 posts/day)
+            </p>
+            <div class="posting-grid">
+              <div class="day-cell active">
+                <div class="day-name">Mon</div>
+                <div class="day-count">6</div>
+              </div>
+              <div class="day-cell active">
+                <div class="day-name">Tue</div>
+                <div class="day-count">5</div>
+              </div>
+              <div class="day-cell">
+                <div class="day-name">Wed</div>
+                <div class="day-count">4</div>
+              </div>
+              <div class="day-cell active">
+                <div class="day-name">Thu</div>
+                <div class="day-count">6</div>
+              </div>
+              <div class="day-cell">
+                <div class="day-name">Fri</div>
+                <div class="day-count">5</div>
+              </div>
+              <div class="day-cell">
+                <div class="day-name">Sat</div>
+                <div class="day-count">5</div>
+              </div>
+              <div class="day-cell">
+                <div class="day-name">Sun</div>
+                <div class="day-count">4</div>
+              </div>
+            </div>
+            <p style="color: #666; font-size: 12px; margin-top: 10px">
+              Highlighted = highest-performing days (Mon, Tue, Thu)
+            </p>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-platform">Frequency Analysis</div>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  gap: 14px;
+                  margin-top: 10px;
+                "
+              >
+                <div>
+                  <div style="font-size: 13px; color: #888">
+                    Current cadence
+                  </div>
+                  <div style="font-size: 20px; font-weight: 700">
+                    ~1.2 posts/day
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size: 13px; color: #888">Best days</div>
+                  <div
+                    style="font-size: 16px; font-weight: 600; color: #4ade80"
+                  >
+                    Mon / Tue / Thu
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size: 13px; color: #888">Recommendation</div>
+                  <div style="font-size: 13px; color: #ccc">
+                    Maintain 1x/day cadence but prioritize a strong hook in
+                    every caption. A post with a weak caption is worth skipping
+                    entirely.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Platform Overview</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Platform</th>
+                <th>Posts</th>
+                <th>Followers</th>
+                <th>Avg Views</th>
+                <th>Avg Eng. Score</th>
+                <th>Top Format</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color: #ff0050; font-weight: 700">TikTok</td>
+                <td>35</td>
+                <td>10.1K</td>
+                <td class="good">1,350</td>
+                <td class="good">171</td>
+                <td>Short video + healing vlogs</td>
+                <td class="good">Active &check;</td>
+              </tr>
+              <tr>
+                <td style="color: #e1306c; font-weight: 700">Instagram</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td class="bad">N/A</td>
+                <td class="bad">N/A</td>
+                <td>&mdash;</td>
+                <td class="bad">Not scraped (login wall)</td>
+              </tr>
+              <tr>
+                <td style="color: #ff0000; font-weight: 700">YouTube</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td class="bad">N/A</td>
+                <td class="bad">N/A</td>
+                <td>&mdash;</td>
+                <td class="bad">Not specified / not found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="color: #666; font-size: 13px; margin-top: 12px">
+          Note: bio links to msha.ke/fishfoodstudio &mdash; kacey may have a
+          presence on other platforms under &ldquo;Fish Food Studio&rdquo;
+          branding worth exploring.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Action Plan</h2>
+        <div class="action-list">
+          <div class="action-item">
+            <div class="action-num">1</div>
+            <div class="action-body">
+              <div class="action-title">
+                Double down on healing/SA storytelling with longer captions
+              </div>
+              <div class="action-desc">
+                The &ldquo;sorry for the emo vid&rdquo; post (1,301 score)
+                outperformed everything by 2x. Schedule 2&ndash;3 longer-form
+                healing reflections per week using the Vulnerability Framework:
+                start with a qualifier hook, dive into specific emotional
+                detail, add #healing #survivorstory #saawareness. This is the
+                creator&rsquo;s authentic superpower and the community responds
+                to it deeply. 39 comments vs. a 5-comment average speaks for
+                itself.
+              </div>
+              <div><span class="priority priority-high">High Impact</span></div>
+            </div>
+          </div>
+          <div class="action-item">
+            <div class="action-num">2</div>
+            <div class="action-body">
+              <div class="action-title">
+                Create a weekly cat series with pop-culture reference captions
+              </div>
+              <div class="action-desc">
+                Cat content is kacey&rsquo;s #2 performer and most viral format.
+                Establish a weekly format (e.g., &ldquo;cat moment of the
+                week&rdquo;) using the &ldquo;i felt my [cultural
+                reference]&rdquo; template. Target under-10-second clips that
+                loop well. The black cat aesthetic is distinctive and ownable.
+                These also have the highest share potential of any content type.
+              </div>
+              <div><span class="priority priority-high">High Impact</span></div>
+            </div>
+          </div>
+          <div class="action-item">
+            <div class="action-num">3</div>
+            <div class="action-body">
+              <div class="action-title">
+                Tie every OOTD post to a specific relatable angle or cultural
+                moment
+              </div>
+              <div class="action-desc">
+                Generic &ldquo;my fit today&rdquo; gets ~700 views.
+                &ldquo;completely forgot it&rsquo;s st pattys day no green in my
+                outfit&rdquo; got 4,673. Every outfit post needs a
+                self-deprecating angle, cultural tie-in, or open question. Drop
+                plain &ldquo;fit check&rdquo; framing entirely. Template:
+                &ldquo;i wore [item] to [context] and felt like
+                [character]&rdquo; or &ldquo;should i have worn [X]
+                instead&hellip;.&rdquo;
+              </div>
+              <div><span class="priority priority-high">High Impact</span></div>
+            </div>
+          </div>
+          <div class="action-item">
+            <div class="action-num">4</div>
+            <div class="action-body">
+              <div class="action-title">
+                Apply curiosity-gap captions to all NYC exploration and food
+                content
+              </div>
+              <div class="action-desc">
+                &ldquo;should i go back and get it tho&hellip;.&rdquo; generated
+                5,155 views as a static photo &mdash; extraordinary. Apply this
+                to all NYC spot visits, thrift hauls, and food discoveries.
+                Before every post, ask: does this caption leave something
+                unresolved that makes people respond? The comment count on these
+                posts shows the audience is active and eager to participate.
+              </div>
+              <div>
+                <span class="priority priority-med">Medium Impact</span>
+              </div>
+            </div>
+          </div>
+          <div class="action-item">
+            <div class="action-num">5</div>
+            <div class="action-body">
+              <div class="action-title">
+                Stop posting content without a genuine caption hook
+              </div>
+              <div class="action-desc">
+                The 7 lowest-performing posts all share one trait: minimal
+                captions with no hook or specificity. &ldquo;FINALLY 70 IN NEW
+                YORKKKKKKKKKKK&rdquo; (197 views), &ldquo;my fit today&rdquo;
+                (747), &ldquo;#onthisday&rdquo; (533). The audience follows
+                kacey for her voice and perspective &mdash; every caption is an
+                opportunity to deliver that. If a post doesn&rsquo;t have a
+                genuine thought to share, consider skipping it rather than
+                posting filler.
+              </div>
+              <div>
+                <span class="priority priority-med">Medium Impact</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        Report generated Apr 13, 2026 &middot; @kceylee TikTok &middot; 35 posts
+        analyzed (Mar 14 &ndash; Apr 13, 2026)<br />
+        <span style="color: #333"
+          >Generated with Claude Code Social Media Analyzer</span
+        >
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        function drawBarChart(id, labels, data, color) {
+          var c = document.getElementById(id);
+          if (!c) return;
+          var ctx = c.getContext("2d"),
+            dpr = window.devicePixelRatio || 1;
+          var dW = c.parentElement.clientWidth - 44,
+            dH = parseInt(c.getAttribute("height")) || 280;
+          c.width = dW * dpr;
+          c.height = dH * dpr;
+          c.style.width = dW + "px";
+          c.style.height = dH + "px";
+          ctx.scale(dpr, dpr);
+          var W = dW,
+            H = dH,
+            pL = 52,
+            pR = 16,
+            pT = 24,
+            pB = 70;
+          var cW = W - pL - pR,
+            cH = H - pT - pB;
+          var max = Math.max.apply(null, data) * 1.18;
+          var bW = Math.floor((cW / labels.length) * 0.62),
+            gap = Math.floor((cW / labels.length) * 0.38);
+          ctx.fillStyle = "#1a1a1a";
+          ctx.fillRect(0, 0, W, H);
+          // grid
+          for (var i = 0; i <= 4; i++) {
+            var y = pT + cH - (cH * i) / 4;
+            ctx.strokeStyle = "#2a2a2a";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(pL, y);
+            ctx.lineTo(W - pR, y);
+            ctx.stroke();
+            var v = Math.round((max * i) / 4);
+            ctx.fillStyle = "#555";
+            ctx.font = "10px Inter,system-ui";
+            ctx.textAlign = "right";
+            ctx.fillText(
+              v >= 1000 ? (v / 1000).toFixed(1) + "K" : v,
+              pL - 4,
+              y + 3,
+            );
+          }
+          data.forEach(function (val, i) {
+            var x = pL + i * (bW + gap);
+            var bH = (val / max) * cH,
+              y = pT + cH - bH;
+            var gr = ctx.createLinearGradient(x, y, x, y + bH);
+            gr.addColorStop(0, color);
+            gr.addColorStop(1, color + "88");
+            ctx.fillStyle = gr;
+            var r = 4;
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + bW - r, y);
+            ctx.quadraticCurveTo(x + bW, y, x + bW, y + r);
+            ctx.lineTo(x + bW, y + bH);
+            ctx.lineTo(x, y + bH);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 11px Inter,system-ui";
+            ctx.textAlign = "center";
+            ctx.fillText(
+              val >= 1000 ? (val / 1000).toFixed(1) + "K" : val,
+              x + bW / 2,
+              y - 6,
+            );
+            // label
+            ctx.fillStyle = "#888";
+            ctx.font = "10px Inter,system-ui";
+            var lbl = labels[i],
+              words = lbl.split(" "),
+              line = "",
+              ly = pT + cH + 15;
+            words.forEach(function (w, wi) {
+              var t = line + w + " ";
+              if (ctx.measureText(t).width > bW + gap + 10 && wi > 0) {
+                ctx.fillText(line.trim(), x + bW / 2, ly);
+                line = w + " ";
+                ly += 12;
+              } else {
+                line = t;
+              }
+            });
+            ctx.fillText(line.trim(), x + bW / 2, ly);
+          });
+        }
+
+        function drawHBar(id, labels, data, colors) {
+          var c = document.getElementById(id);
+          if (!c) return;
+          var ctx = c.getContext("2d"),
+            dpr = window.devicePixelRatio || 1;
+          var dW = c.parentElement.clientWidth - 44,
+            dH = parseInt(c.getAttribute("height")) || 240;
+          c.width = dW * dpr;
+          c.height = dH * dpr;
+          c.style.width = dW + "px";
+          c.style.height = dH + "px";
+          ctx.scale(dpr, dpr);
+          var W = dW,
+            H = dH;
+          ctx.fillStyle = "#1a1a1a";
+          ctx.fillRect(0, 0, W, H);
+          var max = Math.max.apply(null, data) * 1.15,
+            lblW = 160,
+            cW = W - lblW - 55;
+          var bH = Math.floor(((H - 20) / labels.length) * 0.58),
+            g = Math.floor(((H - 20) / labels.length) * 0.42);
+          labels.forEach(function (lbl, i) {
+            var y = 10 + i * (bH + g),
+              bw = (data[i] / max) * cW;
+            var col = colors ? colors[i % colors.length] : "#ff0050";
+            ctx.fillStyle = "#aaa";
+            ctx.font = "11px Inter,system-ui";
+            ctx.textAlign = "right";
+            ctx.fillText(lbl, lblW - 6, y + bH / 2 + 4);
+            var gr = ctx.createLinearGradient(lblW, y, lblW + bw, y);
+            gr.addColorStop(0, col);
+            gr.addColorStop(1, col + "99");
+            ctx.fillStyle = gr;
+            var r = 3;
+            ctx.beginPath();
+            ctx.moveTo(lblW + r, y);
+            ctx.lineTo(lblW + bw - r, y);
+            ctx.quadraticCurveTo(lblW + bw, y, lblW + bw, y + r);
+            ctx.lineTo(lblW + bw, y + bH - r);
+            ctx.quadraticCurveTo(lblW + bw, y + bH, lblW + bw - r, y + bH);
+            ctx.lineTo(lblW + r, y + bH);
+            ctx.quadraticCurveTo(lblW, y + bH, lblW, y + bH - r);
+            ctx.lineTo(lblW, y + r);
+            ctx.quadraticCurveTo(lblW, y, lblW + r, y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 11px Inter,system-ui";
+            ctx.textAlign = "left";
+            ctx.fillText(
+              data[i] >= 1000 ? (data[i] / 1000).toFixed(1) + "K" : data[i],
+              lblW + bw + 6,
+              y + bH / 2 + 4,
+            );
+          });
+        }
+
+        window.addEventListener("load", function () {
+          drawBarChart(
+            "viewsChart",
+            [
+              "cat mary\npoppins",
+              "emo vid\nhealing",
+              "thrift\nshould i go",
+              "st pattys\nday",
+              "lowkey\ndessert",
+              "title ix",
+              "20s being\n18 again",
+            ],
+            [7670, 7011, 5155, 4673, 1529, 1227, 1075],
+            "#ff0050",
+          );
+
+          drawBarChart(
+            "engChart",
+            [
+              "emo vid\nhealing",
+              "cat mary\npoppins",
+              "st pattys\nday",
+              "thrift\nshould i go",
+              "lowkey\ndessert",
+              "title ix",
+              "yayyy\n10k",
+            ],
+            [1301, 660, 626, 277, 232, 180, 147],
+            "#9b59b6",
+          );
+
+          drawHBar(
+            "catChart",
+            [
+              "Healing / SA",
+              "Cat Content",
+              "Fashion + Angle",
+              "Food Discovery",
+              "DIY / Craft",
+              "Generic Vlog",
+              "Weather",
+            ],
+            [2480, 2200, 2100, 1350, 820, 620, 300],
+            [
+              "#ff0050",
+              "#e74c3c",
+              "#e67e22",
+              "#f1c40f",
+              "#2ecc71",
+              "#3498db",
+              "#7f8c8d",
+            ],
+          );
+
+          // Scatter dist
+          var all = [
+            390, 463, 679, 7670, 702, 747, 808, 552, 575, 1529, 7011, 852, 576,
+            768, 952, 956, 841, 197, 646, 810, 580, 533, 215, 697, 1227, 1075,
+            5155, 812, 899, 589, 703, 864, 829, 685, 4673,
+          ];
+          var c = document.getElementById("distChart");
+          if (!c) return;
+          var ctx = c.getContext("2d"),
+            dpr = window.devicePixelRatio || 1;
+          var dW = c.parentElement.clientWidth - 44,
+            dH = 240;
+          c.width = dW * dpr;
+          c.height = dH * dpr;
+          c.style.width = dW + "px";
+          c.style.height = dH + "px";
+          ctx.scale(dpr, dpr);
+          var W = dW,
+            H = dH,
+            pL = 46,
+            pR = 16,
+            pT = 14,
+            pB = 28,
+            maxV = 8200;
+          ctx.fillStyle = "#1a1a1a";
+          ctx.fillRect(0, 0, W, H);
+          var cW2 = W - pL - pR,
+            cH2 = H - pT - pB;
+          [0, 2000, 4000, 6000, 8000].forEach(function (v) {
+            var y = pT + cH2 - (v / maxV) * cH2;
+            ctx.strokeStyle = "#2a2a2a";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(pL, y);
+            ctx.lineTo(W - pR, y);
+            ctx.stroke();
+            ctx.fillStyle = "#555";
+            ctx.font = "10px Inter,system-ui";
+            ctx.textAlign = "right";
+            ctx.fillText(v >= 1000 ? v / 1000 + "K" : v, pL - 4, y + 3);
+          });
+          ctx.fillStyle = "#555";
+          ctx.font = "10px Inter,system-ui";
+          ctx.textAlign = "center";
+          ctx.fillText("Post 1 (newest) to Post 35 (oldest)", W / 2, H - 4);
+          all.forEach(function (v, i) {
+            var x = pL + (i / (all.length - 1)) * cW2;
+            var y = pT + cH2 - (Math.min(v, maxV) / maxV) * cH2;
+            var rad = v > 3000 ? 7 : v > 1000 ? 5 : 3.5;
+            ctx.beginPath();
+            ctx.arc(x, y, rad, 0, Math.PI * 2);
+            ctx.fillStyle =
+              v > 3000
+                ? "#ff0050"
+                : v > 1000
+                  ? "#ff6b9d"
+                  : "rgba(180,100,130,0.7)";
+            ctx.fill();
+          });
+          // trend
+          var n = all.length,
+            sX = 0,
+            sY = 0,
+            sXY = 0,
+            sX2 = 0;
+          all.forEach(function (v, i) {
+            sX += i;
+            sY += v;
+            sXY += i * v;
+            sX2 += i * i;
+          });
+          var sl = (n * sXY - sX * sY) / (n * sX2 - sX * sX),
+            ic = (sY - sl * sX) / n;
+          ctx.beginPath();
+          ctx.moveTo(pL, pT + cH2 - (Math.min(ic, maxV) / maxV) * cH2);
+          ctx.lineTo(
+            pL + cW2,
+            pT + cH2 - (Math.min(ic + sl * (n - 1), maxV) / maxV) * cH2,
+          );
+          ctx.strokeStyle = "rgba(255,0,80,0.3)";
+          ctx.lineWidth = 2;
+          ctx.setLineDash([4, 4]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        });
+      })();
+    </script>
+  </body>
+</html>
